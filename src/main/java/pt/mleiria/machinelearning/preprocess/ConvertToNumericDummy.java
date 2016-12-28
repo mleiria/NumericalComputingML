@@ -13,7 +13,11 @@ import java.util.List;
 public class ConvertToNumericDummy {
 
 		
-	private List<String> lst = new ArrayList<String>();
+	private final List<String> lst;
+	
+	public ConvertToNumericDummy() {
+		lst = new ArrayList<String>();
+	}
 	/**
 	 * 
 	 * @param realValue
@@ -41,6 +45,16 @@ public class ConvertToNumericDummy {
 	 */
 	public int getSize(){
 		return lst.size();
+	}
+	/**
+	 * 
+	 */
+	public String toString(){
+		final StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < lst.size(); i++) {
+			sb.append(i).append(":").append(lst.get(i)).append("\n");
+		}
+		return sb.toString();
 	}
 
 }

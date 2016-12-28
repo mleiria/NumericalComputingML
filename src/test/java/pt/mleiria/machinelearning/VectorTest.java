@@ -53,4 +53,6 @@ public class VectorTest extends TestCase {
         assertEquals(2, c.dimension());
     }
     
+    
+    
 }

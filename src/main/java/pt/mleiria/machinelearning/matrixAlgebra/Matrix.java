@@ -1,5 +1,7 @@
 package pt.mleiria.machinelearning.matrixAlgebra;
 
+import java.util.Random;
+
 /**
  *
  * @author manuel
@@ -87,7 +89,10 @@ public class Matrix {
         return components[n][m];
     }
 
-    private void clear() {
+    /**
+     * Clear the Matrix
+     */
+    public void clear() {
         //columns size
         int m = components[0].length;
         //rows size
@@ -519,32 +524,63 @@ public class Matrix {
         }
         return new Vector(vComps);
     }
+    /**
+     * 
+     * @param rowIndex
+     * @return a Row vector
+     */
+    public Vector getRow(final int rowIndex) {
+        if (rowIndex > rows() || rowIndex < 0) {
+            throw new IllegalArgumentException("Row index out of range.");
+        }
+        final double[] vComps = new double[columns()];
+        for (int i = 0; i < columns(); i++) {
+            vComps[i] = component(rowIndex, i);
+        }
+        return new Vector(vComps);
+    }
 
     /**
-     * Splits the receiver in tow Matrices Matrix[0] is the train Matrix
+     * Splits the receiver in two Matrices Matrix[0] is the train Matrix
      * Matrix[1] is the test Matrix
      *
      * @param percentageOfTrainingData
+     * @param isShuffle whether to shuffle or not the data
      * @return Matrix[2]
      */
-    public Matrix[] trainTestSplit(double percentageOfTrainingData) {
+    public Matrix[] trainTestSplit(double percentageOfTrainingData, final boolean isShuffle) {
         final int rows = rows();
-        final int cols = columns();
-        final int dim = (int) (rows() * percentageOfTrainingData);
+		final int cols = columns();
+		final int dim = (int) (rows() * percentageOfTrainingData);
 
-        double[][] train = new double[dim][cols];
-        double[][] test = new double[rows - dim][cols];
+		double[][] train = new double[dim][cols];
+		double[][] test = new double[rows - dim][cols];
 
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
-                if (i < dim) {
-                    train[i][j] = components[i][j];
-                } else {
-                    test[i - dim][j] = components[i][j];
-                }
-            }
-        }
-        return new Matrix[]{new Matrix(train), new Matrix(test)};
+		if (isShuffle) {
+			final Random rnd = new Random();
+			for(int i = rows - 1; i > 0; i--){
+				final int index = rnd.nextInt(i + 1);
+				double[] a = components[index];
+				components[index] = components[i];
+				components[i] = a;
+			}
+		} 
+		
+		for (int i = 0; i < rows; i++) {
+
+			if (i < dim) {
+				for (int j = 0; j < cols; j++) {
+					train[i][j] = components[i][j];
+				}
+			} else {
+				for (int j = 0; j < cols; j++) {
+					test[i - dim][j] = components[i][j];
+				}
+			}
+
+		}
+
+		return new Matrix[] { new Matrix(train), new Matrix(test) };
     }
 
     /**

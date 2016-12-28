@@ -38,6 +38,13 @@ public class MatrixTest extends TestCase {
         log.info("\n" + a.toString());
     }
 
+    public void testGetVectorFromMatrix(){
+    	Vector v = a.getRow(0);
+    	log.info("Vector v:" + v.toString());
+    	Assert.assertEquals(1.0, v.component(0));
+    	Assert.assertEquals(2.0, v.component(1));
+    }
+    
     public void testMatrixAddition() {
         double[][] components = new double[2][2];
         components[0][0] = 1;
@@ -231,7 +238,7 @@ public class MatrixTest extends TestCase {
         components[3][2] = 15;
         components[3][3] = 1;
         Matrix a = new Matrix(components);
-        Matrix[] trainTest = a.trainTestSplit(0.9);
+        Matrix[] trainTest = a.trainTestSplit(0.9, false);
         Matrix train = trainTest[0];
         Matrix test = trainTest[1];
         log.info("Matrix To Train Test Split: \n" + a.toString());
