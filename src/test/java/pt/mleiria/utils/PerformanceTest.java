@@ -23,6 +23,8 @@ public class PerformanceTest {
 
     public static void main(String[] args) {
     	//matrixTest();
+    	
+    	/*
     	int size = 10;
     	double[] arrS = new double[size];
     	for(int i = 0; i < size; i++){
@@ -33,6 +35,38 @@ public class PerformanceTest {
     	
     	shuffleArraysCollections(arrS);
     	shuffleArraysFicherYates(arrF);
+    	*/
+    	
+    	dotProduct();
+    }
+    private static void dotProduct(){
+        int N = 500;
+        int R = 200;
+        double[][] t = new double[N][R];
+        double[] u = new double[R];
+        double[][] uu = new double[R][0];
+        
+        final Random r = new Random();
+        
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < R; j++) {
+                if (i == 0) {
+                    u[j] = r.nextDouble();
+                    uu[j][0] = r.nextDouble();
+                }
+                t[i][j] = r.nextDouble();
+            }
+        }
+        Matrix m = new Matrix(t);
+        Vector v = new Vector(u);
+        
+        Matrix mm = new Matrix(uu);
+        
+        TimeLog tl = new TimeLog();
+        Matrix finalV = m.multiply(mm);
+        System.out.println(tl.elapsedTime());
+        System.out.println(finalV.toString());
+        
     }
     
     private static void shuffleArraysFicherYates(double[] arr){
