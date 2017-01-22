@@ -40,10 +40,6 @@ public class KNN {
 	/**
 	 * 
 	 */
-	private boolean isSplit;
-	/**
-	 * 
-	 */
 	private Matrix trainingSet;
 	/**
 	 * 
@@ -73,7 +69,6 @@ public class KNN {
 	public KNN(final String dataFile, final double split) {
 		this(dataFile);
 		this.split = split;
-		isSplit = true;
 	}
 	/**
 	 * 
@@ -101,7 +96,7 @@ public class KNN {
 			components[i][row.length - 1] = ctd.put(row[row.length - 1]);
 		}
 		dataSet = new Matrix(components);
-		if(isSplit){
+		if(split != 0){
 			splitDataSet(dataSet);
 		}
 		log.info("ConvertToNumericDummy:\n" + ctd.toString());

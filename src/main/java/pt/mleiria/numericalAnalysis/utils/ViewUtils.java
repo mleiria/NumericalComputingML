@@ -5,12 +5,15 @@
  */
 package pt.mleiria.numericalAnalysis.utils;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  *
  * @author manuel
  */
 public class ViewUtils {
-
+	
     /**
      *
      * @param array
@@ -106,5 +109,23 @@ public class ViewUtils {
         sb.append(arr[arr.length - 1]).append("]");
         return sb.toString();
     }
-
+    /**
+     * 
+     * @param map
+     * @return
+     */
+    public static String showSeparatedByClass(final Map<Integer, List<Double[]>> map){
+    	final StringBuffer sb = new StringBuffer();
+    	for (Map.Entry<Integer, List<Double[]>> entry : map.entrySet()) {
+    		sb.append("\nKey:").append(entry.getKey()).append("\n");
+    		List<Double[]> valueLst = entry.getValue();
+    		for(Double[] d : valueLst){
+    			sb.append("[");
+    			for(int i = 0; i < d.length - 1; i++)
+    				sb.append(d[i] + ":");
+    			sb.append(d[d.length - 1]).append("]\n");
+    		}
+    	}
+    	return sb.toString();
+    }
 }

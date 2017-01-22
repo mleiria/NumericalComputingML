@@ -29,7 +29,7 @@ import java.util.logging.Logger;
  */
 public class IOUtils {
 
-    private final static Logger LOG = Logger.getLogger(IOUtils.class.getName());
+	protected static final Logger log = Logger.getLogger("mlearningLog");
 
     public static String showFileContents(final String pathToFile) throws FileNotFoundException, IOException {
         final File f = new File(pathToFile);
@@ -49,7 +49,8 @@ public class IOUtils {
             }
 
         }
-        LOG.log(Level.INFO, "[{0}]", sb.toString());
+        fis.close();
+        log.info(sb.toString());
         return sb.toString();
     }
 
@@ -233,7 +234,7 @@ public class IOUtils {
             try (Scanner scanner = new Scanner(file)) {
                 while (scanner.hasNextLine()) {
                     String line = scanner.nextLine();
-                    LOG.log(Level.INFO, "LINE-->{0}", line);
+                    log.info(line);
                     String[] f = line.split(String.valueOf(separator));
                     freq.put(f[0], Double.parseDouble(f[1]));
 
