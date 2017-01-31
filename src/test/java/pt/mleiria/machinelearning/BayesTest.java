@@ -14,7 +14,7 @@ import pt.mleiria.numericalAnalysis.utils.ViewUtils;
 
 public class BayesTest extends TestCase{
 
-	/** 
+	/**
      * Logger
      */
     private static final Logger log = Logger.getLogger("mlearningLog");
