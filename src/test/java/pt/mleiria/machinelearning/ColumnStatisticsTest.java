@@ -32,7 +32,9 @@ public class ColumnStatisticsTest extends TestCase {
         	autoCorrData[i] = Double.parseDouble(data[i].trim());	
         }
 	}
-	
+	/**
+	 * 
+	 */
 	public void testAutoCorrelation(){
 		
 		final ColumnStatistics cs = new ColumnStatistics(autoCorrData);
