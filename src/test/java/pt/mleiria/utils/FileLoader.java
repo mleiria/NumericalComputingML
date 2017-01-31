@@ -44,7 +44,6 @@ public class FileLoader {
 		File file = new File(classLoader.getResource(fileName).getFile());
 		int numRows = 0;
 		int numCols = 0;
-		Matrix m;
 		try {
 			Scanner scanner = new Scanner(file);
 			while (scanner.hasNextLine()) {

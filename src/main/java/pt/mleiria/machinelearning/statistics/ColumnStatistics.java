@@ -15,7 +15,7 @@ import pt.mleiria.machinelearning.matrixAlgebra.Vector;
 public class ColumnStatistics {
 
     private final double[] col;
-    private final StatisticalMoments sm = new StatisticalMoments();
+    private final StatisticalMoments sm;
     private final int dimension;
     /**
      * 
@@ -24,6 +24,7 @@ public class ColumnStatistics {
     public ColumnStatistics(final double[] column) {
         this.col = column;
         this.dimension = column.length;
+        sm = new StatisticalMoments();
         processValues();
     }
     /**
@@ -33,13 +34,14 @@ public class ColumnStatistics {
     public ColumnStatistics(final Vector v) {
         this.col = v.toComponents();
         this.dimension = v.dimension();
+        sm = new StatisticalMoments();
         processValues();
     }
     /**
      * 
      */
     private void processValues(){
-        for(int i = 0; i < col.length; i++){
+    	for(int i = 0; i < col.length; i++){
             sm.accumulate(col[i]);
         }
     }
@@ -100,5 +102,22 @@ public class ColumnStatistics {
             return sortedArr[dimension/2 + 1];
         }
     }
-
+    /**
+     * 
+     * @return
+     */
+    public double[] getAutoCorrelation(){
+    	final double[] autoCorrelation = new double[dimension];
+    	final double variance = getUnnormalizedVariance();
+    	final double average = getAverage();
+       	for(int k = 0; k < dimension; k++){
+    		for(int t = 0; t < dimension - k - 1; t++){
+    			autoCorrelation[k] += (col[t] - average) * (col[t + k] - average);
+       		}
+    		autoCorrelation[k] /=  variance; 
+    	}
+    	return autoCorrelation;
+    }
+    
+   
 }
