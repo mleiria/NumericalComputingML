@@ -3,12 +3,9 @@
  */
 package pt.mleiria.machinelearning;
 
-import org.apache.log4j.Logger;
-
 import junit.framework.Assert;
 import junit.framework.TestCase;
 import pt.mleiria.machinelearning.statistics.ColumnStatistics;
-import pt.mleiria.numericalAnalysis.utils.ViewUtils;
 import pt.mleiria.utils.FileLoader;
 
 /**
@@ -17,7 +14,7 @@ import pt.mleiria.utils.FileLoader;
  */
 public class ColumnStatisticsTest extends TestCase {
 
-	private static final Logger log = Logger.getLogger(ColumnStatisticsTest.class);
+	//private static final Logger log = Logger.getLogger(ColumnStatisticsTest.class);
 	private String[] data;
 	private double[] autoCorrData;
 	
