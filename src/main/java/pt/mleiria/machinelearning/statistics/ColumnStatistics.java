@@ -103,7 +103,7 @@ public class ColumnStatistics {
         }
     }
     /**
-     * 
+     *  
      * @return
      */
     public double[] getAutoCorrelation(){
