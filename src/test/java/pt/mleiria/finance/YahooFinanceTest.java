@@ -5,12 +5,14 @@ package pt.mleiria.finance;
 
 import java.math.BigDecimal;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Map;
 
 import junit.framework.Assert;
 import junit.framework.TestCase;
 import yahoofinance.Stock;
 import yahoofinance.YahooFinance;
+import yahoofinance.histquotes.HistoricalQuote;
 import yahoofinance.histquotes.Interval;
 import yahoofinance.quotes.fx.FxQuote;
 import yahoofinance.quotes.fx.FxSymbols;
@@ -75,5 +77,23 @@ public class YahooFinanceTest extends TestCase{
 		Stock intel = stocks.get("INTC");
 		Stock airbus = stocks.get("AIR.PA");
 		Assert.assertEquals(5, stocks.size());
+	}
+	
+	public void testLoadYahooObject(){
+		Calendar from = Calendar.getInstance();
+		Calendar to = Calendar.getInstance();
+		from.add(Calendar.YEAR, -5); // from 5 years ago
+		 
+		Stock google = YahooFinance.get("GOOG", from, to, Interval.WEEKLY);
+		google.print();
+		
+		List<HistoricalQuote> l = google.getHistory();
+		for(HistoricalQuote hq : l){
+			System.out.println("ADj.Close:"+ hq.getAdjClose());
+			System.out.println("Date:"+ hq.getDate().getTime());
+		}
+		Assert.assertEquals(10, l.size());
+		
+		
 	}
 }
