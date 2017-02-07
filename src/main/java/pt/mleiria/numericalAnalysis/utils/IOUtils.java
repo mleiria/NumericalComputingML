@@ -343,6 +343,29 @@ public class IOUtils {
 		}
 		return inputList;
 	}
+	/**
+	 * Load a file in Yahoo financial format
+	 * 
+	 * @param inputFilePath
+	 * @return
+	 */
+	public static List<YahooFinancials> processInputFile(File inputF) {
+
+		List<YahooFinancials> inputList = new ArrayList<YahooFinancials>();
+
+		try {
+			InputStream inputFS = new FileInputStream(inputF);
+			BufferedReader br = new BufferedReader(new InputStreamReader(inputFS));
+			// skip the header of the csv
+			inputList = br.lines().skip(1).map(mapToItem).collect(Collectors.toList());
+			br.close();
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return inputList;
+	}
+
 
 	private static Function<String, YahooFinancials> mapToItem = (line) -> {
 

@@ -14,12 +14,10 @@ public class YahooFinanceTest extends TestCase{
 	private static final Logger log = Logger.getLogger("mlearningLog");
 	
 	public void testYahooFinance(){
-		final String path ="/media/manuel/workspace/NumericalComputingML/src/test/resources/input/";
-		final String fileName = "APPLE.csv";
-		//ClassLoader classLoader = getClass().getClassLoader();
-		//String f = classLoader.getResource(fileName).getFile();
-		List<YahooFinancials> l = IOUtils.processInputFile(path + fileName);
-		
+		List<YahooFinancials> l = IOUtils.processInputFile(new FileLoader().getFileResource("input/APPLE.csv"));
+		for(YahooFinancials yf : l){
+			log.info(yf.getDate() + ":" + yf.getAdjClose());
+		}
 		Assert.assertEquals(21, l.size());
 	}
 

@@ -14,7 +14,21 @@ import pt.mleiria.machinelearning.matrixAlgebra.Matrix;
  *
  */
 public class FileLoader {
-
+	/**
+	 * 
+	 * @param fileName
+	 * @return
+	 */
+	public File getFileResource(final String fileName){
+		ClassLoader classLoader = getClass().getClassLoader();
+		File file = new File(classLoader.getResource(fileName).getFile());
+		return file;
+	}
+	/**
+	 * 
+	 * @param fileName
+	 * @return
+	 */
 	public String getFileToString(String fileName) {
 
 		StringBuilder result = new StringBuilder("");
@@ -39,6 +53,13 @@ public class FileLoader {
 		return result.toString();
 
 	}
+	/**
+	 * 
+	 * @param fileName
+	 * @param ignoreFirstRow
+	 * @param separator
+	 * @return
+	 */
 	public Matrix getFileCsvToMatrix(String fileName, boolean ignoreFirstRow, final String separator){
 		ClassLoader classLoader = getClass().getClassLoader();
 		File file = new File(classLoader.getResource(fileName).getFile());
@@ -80,4 +101,6 @@ public class FileLoader {
 		}
 		return null;
 	}
+	
+	
 }
