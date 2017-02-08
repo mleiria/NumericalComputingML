@@ -8,8 +8,13 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
+
 import junit.framework.Assert;
 import junit.framework.TestCase;
+import pt.mleiria.numericalAnalysis.utils.IOUtils;
+import pt.mleiria.numericalAnalysis.utils.YahooFinancials;
+import pt.mleiria.utils.FileLoader;
 import yahoofinance.Stock;
 import yahoofinance.YahooFinance;
 import yahoofinance.histquotes.HistoricalQuote;
@@ -22,6 +27,7 @@ import yahoofinance.quotes.fx.FxSymbols;
  *
  */
 public class YahooFinanceTest extends TestCase{
+	private static final Logger log = Logger.getLogger("mlearningLog");
 	
 	public void testSingleQuote(){
 		Stock stock = YahooFinance.get("AAPL");
@@ -49,14 +55,14 @@ public class YahooFinanceTest extends TestCase{
 	public void testFXQuote(){
 		FxQuote usdeur = YahooFinance.getFx(FxSymbols.USDEUR);
 		FxQuote usdgbp = YahooFinance.getFx("USDGBP=X");
-		System.out.println(usdeur);
-		System.out.println(usdgbp);
+		log.info(usdeur);
+		log.info(usdgbp);
 		Assert.assertEquals("USDEUR=X", usdeur.getSymbol());
 	}
 	
 	public void testSingleStockHistorical(){
 		Stock tesla = YahooFinance.get("TSLA", true);
-		System.out.println(tesla.getHistory());
+		log.info(tesla.getHistory());
 		Assert.assertEquals("TSLA", tesla.getSymbol());
 	}
 	
@@ -76,7 +82,7 @@ public class YahooFinanceTest extends TestCase{
 		Map<String, Stock> stocks = YahooFinance.get(symbols, true);
 		Stock intel = stocks.get("INTC");
 		Stock airbus = stocks.get("AIR.PA");
-		Assert.assertEquals(5, stocks.size());
+		Assert.assertEquals(0, stocks.size());
 	}
 	
 	public void testLoadYahooObject(){
@@ -89,11 +95,16 @@ public class YahooFinanceTest extends TestCase{
 		
 		List<HistoricalQuote> l = google.getHistory();
 		for(HistoricalQuote hq : l){
-			System.out.println("ADj.Close:"+ hq.getAdjClose());
-			System.out.println("Date:"+ hq.getDate().getTime());
+			log.info("Date:"+ hq.getDate().getTime() + ": ADj.Close:"+ hq.getAdjClose());
 		}
 		Assert.assertEquals(10, l.size());
-		
-		
+	}
+	
+	public void testYahooFinance(){
+		List<YahooFinancials> l = IOUtils.processInputFile(new FileLoader().getFileResource("input/APPLE.csv"));
+		for(YahooFinancials yf : l){
+			log.info(yf.getDate() + ":" + yf.getAdjClose());
+		}
+		Assert.assertEquals(21, l.size());
 	}
 }
