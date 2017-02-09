@@ -66,7 +66,7 @@ public class YahooFinanceTest extends TestCase{
 		Assert.assertEquals("TSLA", tesla.getSymbol());
 	}
 	
-	public void testHisitoricalWithDate(){
+	public void testHistoricalWithDate(){
 		Calendar from = Calendar.getInstance();
 		Calendar to = Calendar.getInstance();
 		from.add(Calendar.YEAR, -5); // from 5 years ago
