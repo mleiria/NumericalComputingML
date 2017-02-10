@@ -17,6 +17,8 @@ public class ColumnStatistics {
     private final double[] col;
     private final StatisticalMoments sm;
     private final int dimension;
+    private double maxValue;
+    private double minValue;
     /**
      * 
      * @param column 
@@ -41,8 +43,11 @@ public class ColumnStatistics {
      * 
      */
     private void processValues(){
+    	maxValue = minValue = col[0];
     	for(int i = 0; i < col.length; i++){
             sm.accumulate(col[i]);
+            if(col[i] > maxValue) maxValue = col[i];
+            if(col[i] < minValue) minValue = col[i];
         }
     }
     
@@ -90,6 +95,20 @@ public class ColumnStatistics {
     }
     /**
      * 
+     * @return the maximum value of the vector
+     */
+    public double getMaxValue() {
+		return maxValue;
+	}
+    /**
+     * 
+     * @return the minimum value of the vector
+     */
+    public double getMinValue() {
+		return minValue;
+	}
+    /**
+     * 
      * @return 
      */
     public double getMedian(){
@@ -119,5 +138,6 @@ public class ColumnStatistics {
     	return autoCorrelation;
     }
     
+     
    
 }
