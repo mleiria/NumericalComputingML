@@ -41,7 +41,8 @@ public class LinearEquationsTest extends TestCase{
 		DecimalFormat df = new DecimalFormat("#.#");
 		df.setRoundingMode(RoundingMode.CEILING);
 		
-		log.info(ViewUtils.showArrayContents(solution.toComponents()));
+		log.info("Solution:" + solution.toString());
+		log.info("Matrix:" + le.toString());
 		
 		Assert.assertEquals("1", df.format(solution.component(2)));
 	}
