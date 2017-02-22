@@ -9,9 +9,9 @@ package pt.mleiria.machinelearning.matrixAlgebra;
  */
 public class GaussJordanDecomposition {
 
-	private double[][] rows;
+	private final double[][] rows;
 
-	private Matrix inverse;
+	private final Matrix inverse;
 
 	/**
 	 * 
@@ -30,7 +30,7 @@ public class GaussJordanDecomposition {
 	 * 
 	 * @param m
 	 */
-	public GaussJordanDecomposition(Matrix m) {
+	public GaussJordanDecomposition(final Matrix m) {
 		this(m.components);
 	}
 	/**
@@ -70,11 +70,14 @@ public class GaussJordanDecomposition {
 				rows[i][j] -= rows[p][j] * r;
 		}
 	}
+	/**
+	 * 
+	 * @param p
+	 * @throws ArithmeticException
+	 */
 	private void jordanElimination(final int p) throws ArithmeticException {
 		final double inversePivot = 1 / rows[p][p];
 		double r;
-		int n = rows.length;
-		int m = rows[0].length;
 		for (int i = p - 1; i >= 0; i--) {
 			r = inversePivot * rows[i][p];
 			inverse.components[i][p] = r;
