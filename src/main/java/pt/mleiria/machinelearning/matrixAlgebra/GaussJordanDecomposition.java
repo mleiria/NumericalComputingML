@@ -9,9 +9,12 @@ package pt.mleiria.machinelearning.matrixAlgebra;
  */
 public class GaussJordanDecomposition {
 
-	private final double[][] rows;
+	private double[][] rows;
 
+	private Matrix currentMatrix;
 	private final Matrix inverse;
+	private Matrix lower;
+	private Matrix upper;
 
 	/**
 	 * 
@@ -22,10 +25,23 @@ public class GaussJordanDecomposition {
 		if (m[0].length != n)
 			throw new IllegalArgumentException(
 					"Illegal system: a" + n + " by " + m[0].length + " matrix is not a square matrix");
-		rows = m;
+		initialize(m);
 		inverse = new Matrix(n).identity();
 	}
-
+	/**
+	 * 
+	 * @param m
+	 */
+	private void initialize(final double[][] m){
+		final int size = m.length; 
+		rows = new double[size][size];
+		for(int i = 0; i < size; i++){
+			for(int j = 0; j < size; j++){
+				rows[i][j] = m[i][j];
+			}
+		}
+		m = new Matrix(rows);
+	}
 	/**
 	 * 
 	 * @param m
@@ -40,8 +56,16 @@ public class GaussJordanDecomposition {
 		final int n = rows.length;
 		for (int i = 0; i < n; i++)
 			pivotingStep(i);
+		lower = new Matrix(inverse.toComponents());
+		upper = new Matrix(rows);
 		for (int i = n - 1; i >= 0; i--)
 			jordanElimination(i);
+		for (int i = 0; i < n ; i++){
+			final double inversePivot = 1.0 / rows[i][i];
+			for(int j = 0; j < n; j++){
+				inverse.components[i][j] *= inversePivot;
+			}
+		}
 		
 	}
 	/**
@@ -120,6 +144,30 @@ public class GaussJordanDecomposition {
 		}
 		return answer;
 	}
+	/**
+	 * 
+	 * @return
+	 */
+	public Matrix getLowerMatrix(){
+		if(null != lower){
+			return lower;
+		}else{
+			decompose();
+			return lower;
+		}
+	}
+	/**
+	 * 
+	 * @return
+	 */
+	public Matrix getUpperMatrix(){
+		if(null != upper){
+			return upper;
+		}else{
+			decompose();
+			return upper;
+		}
+	}
 	
 	
 	
@@ -140,11 +188,11 @@ public class GaussJordanDecomposition {
 		System.out.println("A\n"+ A.toString());
 		GaussJordanDecomposition gjd = new GaussJordanDecomposition(rows);
 		gjd.decompose();
-		Matrix U = new Matrix(rows);
-		System.out.println("U\n"+U.toString());
-		Matrix L = gjd.inverse;
-		System.out.println("L\n"+L.toString());
-		System.out.println("LU\n"+L.multiply(U));
+		System.out.println("U\n"+gjd.getUpperMatrix().toString());
 		
+		System.out.println("L\n"+gjd.getLowerMatrix().toString());
+		
+		System.out.println("LU\n"+gjd.getLowerMatrix().multiply(gjd.getUpperMatrix()).toString());
+		System.out.println(A.multiply(gjd.inverse));
 	}
 }
