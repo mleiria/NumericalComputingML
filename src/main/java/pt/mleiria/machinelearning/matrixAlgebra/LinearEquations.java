@@ -18,16 +18,14 @@ public class LinearEquations {
 	/**
 	 * Construct a system of linear equation Ax = y1, y2,....
 	 * 
-	 * @param m
-	 *            double[][]
-	 * @param c
-	 *            double[][]
+	 * @param m double[][]
+	 * @param c double[][]
 	 * @throws pt.mleiria.statistics.matrixAlgebra.IllegalArgumentException
 	 *             if the system's matrix is not square if constant dimension
 	 *             does not match that of the matrix
 	 */
-	public LinearEquations(double[][] m, double[][] c) throws IllegalArgumentException {
-		int n = m.length;
+	public LinearEquations(final double[][] m, final double[][] c) throws IllegalArgumentException {
+		final int n = m.length;
 		if (m[0].length != n)
 			throw new IllegalArgumentException(
 					"Illegal system: a" + n + " by " + m[0].length + " matrix is not a square matrix");
@@ -46,16 +44,14 @@ public class LinearEquations {
 	/**
 	 * Construct a system of linear equation Ax = y.
 	 * 
-	 * @param m
-	 *            double[][] components of the system's matrix
-	 * @param c
-	 *            double[] components of the constant vector
+	 * @param m double[][] components of the system's matrix
+	 * @param c double[] components of the constant vector
 	 * @throws pt.mleiria.statistics.matrixAlgebra.IllegalArgumentException
 	 *             if the system's matrix is not square if constant dimension
 	 *             does not match that of the matrix
 	 */
-	public LinearEquations(double[][] m, double[] c) throws IllegalArgumentException {
-		int n = m.length;
+	public LinearEquations(final double[][] m, final double[] c) throws IllegalArgumentException {
+		final int n = m.length;
 		if (m[0].length != n)
 			throw new IllegalArgumentException(
 					"Illegal system: a" + n + " by " + m[0].length + " matrix is not a square matrix");
@@ -73,29 +69,26 @@ public class LinearEquations {
 	/**
 	 * Construct a system of linear equation Ax = y.
 	 * 
-	 * @param a
-	 *            MatrixAlgebra.Matrix matrix A
-	 * @param y
-	 *            MatrixAlgebra.Vector vector y
+	 * @param a Matrix A
+	 * @param y Vector y
 	 * @exception MatrixAlgebra.IllegalArgumentException
 	 *                if the system's matrix is not square if vector dimension
 	 *                does not match that of the matrix
 	 */
-	public LinearEquations(Matrix a, Vector y){
+	public LinearEquations(final Matrix a, final Vector y){
 		this(a.components, y.components);
 	}
 
 	/**
 	 * Computes the solution for constant vector p applying backsubstitution.
 	 * 
-	 * @param p
-	 *            int
+	 * @param p int
 	 * @exception java.lang.ArithmeticException
 	 *                if one diagonal element of the triangle matrix is zero.
 	 */
-	private void backSubstitution(int p) throws ArithmeticException {
-		int n = rows.length;
-		double[] answer = new double[n];
+	private void backSubstitution(final int p) throws ArithmeticException {
+		final int n = rows.length;
+		final double[] answer = new double[n];
 		double x;
 		for (int i = n - 1; i >= 0; i--) {
 			x = rows[i][n + p];
@@ -104,17 +97,15 @@ public class LinearEquations {
 			answer[i] = x / rows[i][i];
 		}
 		solutions[p] = new Vector(answer);
-		return;
 	}
 
 	/**
 	 * Finds the position of the largest pivot at step p.
 	 * 
 	 * @return int
-	 * @param p
-	 *            int step of pivoting.
+	 * @param p int step of pivoting.
 	 */
-	private int largestPivot(int p) {
+	private int largestPivot(final int p) {
 		double pivot = Math.abs(rows[p][p]);
 		int answer = p;
 		double x;
@@ -131,13 +122,12 @@ public class LinearEquations {
 	/**
 	 * Perform pivot operation at location p.
 	 * 
-	 * @param p
-	 *            int
+	 * @param p int
 	 * @exception java.lang.ArithmeticException
 	 *                if the pivot element is zero.
 	 */
-	private void pivot(int p) throws ArithmeticException {
-		double inversePivot = 1 / rows[p][p];
+	private void pivot(final int p) throws ArithmeticException {
+		final double inversePivot = 1 / rows[p][p];
 		double r;
 		int n = rows.length;
 		int m = rows[0].length;
@@ -146,16 +136,14 @@ public class LinearEquations {
 			for (int j = p; j < m; j++)
 				rows[i][j] -= rows[p][j] * r;
 		}
-		return;
 	}
 
 	/**
 	 * Perform optimum pivot operation at location p.
 	 * 
-	 * @param p
-	 *            int
+	 * @param p int
 	 */
-	private void pivotingStep(int p) {
+	private void pivotingStep(final int p) {
 		swapRows(p, largestPivot(p));
 		pivot(p);
 		return;
@@ -171,13 +159,12 @@ public class LinearEquations {
 	/**
 	 * Return the vector solution of constants indexed by p.
 	 * 
-	 * @return DHBmatrixAlgebra.Vector
-	 * @param p
-	 *            int index of the constant vector fed into the system.
+	 * @return pt.mleiria.machinelearning.matrixAlgebra.Vector
+	 * @param p int index of the constant vector fed into the system.
 	 * @exception java.lang.ArithmeticException
 	 *                if the system cannot be solved.
 	 */
-	public Vector solution(int p) throws ArithmeticException {
+	public Vector solution(final int p) throws ArithmeticException {
 		if (solutions == null)
 			solve();
 		if (solutions[p] == null)
@@ -190,7 +177,7 @@ public class LinearEquations {
 	 *                if the system cannot be solved.
 	 */
 	private void solve() throws ArithmeticException {
-		int n = rows.length;
+		final int n = rows.length;
 		for (int i = 0; i < n; i++)
 			pivotingStep(i);
 		solutions = new Vector[rows[0].length - n];
@@ -204,7 +191,7 @@ public class LinearEquations {
 	 * @param q
 	 *            int
 	 */
-	private void swapRows(int p, int q) {
+	private void swapRows(final int p, final int q) {
 		if (p != q) {
 			double temp;
 			int m = rows[p].length;

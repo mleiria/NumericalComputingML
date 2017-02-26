@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package pt.mleiria.machinelearning;
+package pt.mleiria.matrixAlgebra;
 
 import junit.framework.Assert;
 import junit.framework.TestCase;
