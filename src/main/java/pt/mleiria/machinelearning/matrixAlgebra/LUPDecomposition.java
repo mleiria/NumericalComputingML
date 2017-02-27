@@ -296,4 +296,24 @@ public class LUPDecomposition {
         }
         return sb.toString();
     }
+    
+    public static void main(String[] args){
+    	double[][] rows = new double[3][3];
+		rows[0][0] = 2.0;
+		rows[0][1] = 1.0;
+		rows[0][2] = 4.0;
+		rows[1][0] = 6.0;
+		rows[1][1] = 1.0;
+		rows[1][2] = 0.0;
+		rows[2][0] = -1.0;
+		rows[2][1] = 2.0;
+		rows[2][2] = -10.0;
+		
+		Matrix A = new Matrix(rows);
+		System.out.println("A\n"+ A.toString());
+    	LUPDecomposition lup = new LUPDecomposition(rows);
+		Matrix inv = new Matrix(lup.inverseMatrixComponents());
+		System.out.println("A^1\n"+inv.toString());
+		System.out.println("A.A^1\n"+A.multiply(inv));
+    }
 }

@@ -15,6 +15,7 @@ public class GaussJordanDecomposition {
 	private final Matrix inverse;
 	private Matrix lower;
 	private Matrix upper;
+	private Matrix diagonal;
 
 	/**
 	 * 
@@ -40,7 +41,7 @@ public class GaussJordanDecomposition {
 				rows[i][j] = m[i][j];
 			}
 		}
-		m = new Matrix(rows);
+		currentMatrix = new Matrix(rows);
 	}
 	/**
 	 * 
@@ -56,17 +57,25 @@ public class GaussJordanDecomposition {
 		final int n = rows.length;
 		for (int i = 0; i < n; i++)
 			pivotingStep(i);
+		
+		System.out.println("G\n"+inverse.toString());
+
+		
 		lower = new Matrix(inverse.toComponents());
-		upper = new Matrix(rows);
+		upper = new Matrix(new Matrix(rows).toComponents());
 		for (int i = n - 1; i >= 0; i--)
 			jordanElimination(i);
+		
+		System.out.println("J\n"+inverse.toString());
+		diagonal = new Matrix(new Matrix(rows).toComponents());
 		for (int i = 0; i < n ; i++){
 			final double inversePivot = 1.0 / rows[i][i];
 			for(int j = 0; j < n; j++){
 				inverse.components[i][j] *= inversePivot;
 			}
+			
 		}
-		
+		System.out.println("I\n"+inverse.toString());
 	}
 	/**
 	 * 
@@ -160,6 +169,18 @@ public class GaussJordanDecomposition {
 	 * 
 	 * @return
 	 */
+	public Matrix getDiagonalMatrix(){
+		if(null != diagonal){
+			return diagonal;
+		}else{
+			decompose();
+			return diagonal;
+		}
+	}
+	/**
+	 * 
+	 * @return
+	 */
 	public Matrix getUpperMatrix(){
 		if(null != upper){
 			return upper;
@@ -188,11 +209,19 @@ public class GaussJordanDecomposition {
 		System.out.println("A\n"+ A.toString());
 		GaussJordanDecomposition gjd = new GaussJordanDecomposition(rows);
 		gjd.decompose();
+		
+		
+		
+		
+		
+		/*
+		System.out.println("L\n"+gjd.getLowerMatrix().toString());
+		System.out.println("D\n"+gjd.getDiagonalMatrix().toString());
 		System.out.println("U\n"+gjd.getUpperMatrix().toString());
 		
-		System.out.println("L\n"+gjd.getLowerMatrix().toString());
+		System.out.println("A^1\n"+gjd.inverse.toString());
+		*/
 		
-		System.out.println("LU\n"+gjd.getLowerMatrix().multiply(gjd.getUpperMatrix()).toString());
-		System.out.println(A.multiply(gjd.inverse));
+		
 	}
 }
