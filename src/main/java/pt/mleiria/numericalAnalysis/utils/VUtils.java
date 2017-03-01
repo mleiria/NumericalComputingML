@@ -7,7 +7,7 @@ package pt.mleiria.numericalAnalysis.utils;
  * @author manuel
  *
  */
-public class VUtils<Num> {
+public class VUtils<Num extends Number> {
 	
 	
 
