@@ -14,6 +14,4 @@ import java.math.BigInteger;
 public interface Factorial {
     
     BigInteger doFactorial(int n);
-    
-    
 }

@@ -28,5 +28,10 @@ public class CachedFactorial extends RecursiveFactorial {
         cache.put(n, val);
         return val; 
     }
+    
+    public static void main(String[] args){
+    	CachedFactorial cf = new CachedFactorial();
+    	System.out.println(cf.doFactorial(100).toString());
+    }
 
 }
