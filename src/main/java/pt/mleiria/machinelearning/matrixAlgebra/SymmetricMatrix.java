@@ -50,7 +50,7 @@ public class SymmetricMatrix extends Matrix {
     /**
      * Answers the inverse of the receiver computed via the CRL algorithm.
      *
-     * @return DhbMatrixAlgebra.SymmetricMatrix
+     * @return SymmetricMatrix
      * @exception java.lang.ArithmeticException if the matrix is singular.
      */
     private SymmetricMatrix crlInverse() throws ArithmeticException {

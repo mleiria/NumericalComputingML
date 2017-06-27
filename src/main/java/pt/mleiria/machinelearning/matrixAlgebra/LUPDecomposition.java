@@ -3,7 +3,7 @@ package pt.mleiria.machinelearning.matrixAlgebra;
 /**
  * Lower Upper Permutation (LUP) decomposition
  *
- * @author Didier H. Besset
+ * 
  */
 public class LUPDecomposition {
 
@@ -25,8 +25,8 @@ public class LUPDecomposition {
      *
      * @param components double[][]
      */
-    public LUPDecomposition(double[][] components) {
-        int n = components.length;
+    public LUPDecomposition(final double[][] components) {
+        final int n = components.length;
         if (components[0].length != n) {
             throw new IllegalArgumentException("Illegal system: a" + n + " by "
                     + components[0].length + " matrix is not a square matrix");
@@ -38,9 +38,9 @@ public class LUPDecomposition {
     /**
      * Constructor method.
      *
-     * @param m DhbMatrixAlgebra.Matrix
+     * @param m Matrix
      */
-    public LUPDecomposition(Matrix m) {
+    public LUPDecomposition(final Matrix m) {
         if (!m.isSquare()) {
             throw new IllegalArgumentException(
                     "Supplied matrix is not a square matrix");
@@ -51,9 +51,9 @@ public class LUPDecomposition {
     /**
      * Constructor method.
      *
-     * @param m DhbMatrixAlgebra.DhbSymmetricMatrix
+     * @param m SymmetricMatrix
      */
-    public LUPDecomposition(SymmetricMatrix m) {
+    public LUPDecomposition(final SymmetricMatrix m) {
         initialize(m.components);
     }
 
@@ -61,9 +61,9 @@ public class LUPDecomposition {
      * @return double[]
      * @param xTilde double[]
      */
-    private double[] backwardSubstitution(double[] xTilde) {
-        int n = rows.length;
-        double[] answer = new double[n];
+    private double[] backwardSubstitution(final double[] xTilde) {
+        final int n = rows.length;
+        final double[] answer = new double[n];
         for (int i = n - 1; i >= 0; i--) {
             answer[i] = xTilde[i];
             for (int j = i + 1; j < n; j++) {
@@ -75,7 +75,7 @@ public class LUPDecomposition {
     }
 
     private void decompose() {
-        int n = rows.length;
+        final int n = rows.length;
         permutation = new int[n];
         for (int i = 0; i < n; i++) {
             permutation[i] = i;
@@ -120,9 +120,9 @@ public class LUPDecomposition {
      * @return double[]
      * @param c double[]
      */
-    private double[] forwardSubstitution(double[] c) {
-        int n = rows.length;
-        double[] answer = new double[n];
+    private double[] forwardSubstitution(final double[] c) {
+        final int n = rows.length;
+        final double[] answer = new double[n];
         for (int i = 0; i < n; i++) {
             answer[i] = c[permutation[i]];
             for (int j = 0; j <= i - 1; j++) {
@@ -131,7 +131,9 @@ public class LUPDecomposition {
         }
         return answer;
     }
-
+    /**
+     * 
+     */
     private void initialize() {
         permutation = null;
         parity = 1;
@@ -141,8 +143,8 @@ public class LUPDecomposition {
      * @param components double[][] components obtained from constructor
      * methods.
      */
-    private void initialize(double[][] components) {
-        int n = components.length;
+    private void initialize(final double[][] components) {
+        final int n = components.length;
         rows = new double[n][n];
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
@@ -160,8 +162,8 @@ public class LUPDecomposition {
         if (!decomposed()) {
             return null;
         }
-        int n = rows.length;
-        double[][] inverseRows = new double[n][n];
+        final int n = rows.length;
+        final double[][] inverseRows = new double[n][n];
         double[] column = new double[n];
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
@@ -180,7 +182,7 @@ public class LUPDecomposition {
      * @return int
      * @param k int
      */
-    private int largestPivot(int k) {
+    private int largestPivot(final int k) {
         double maximum = Math.abs(rows[k][k]);
         double abs;
         int index = k;
@@ -197,10 +199,10 @@ public class LUPDecomposition {
     /**
      * @param k int
      */
-    private void pivot(int k) {
-        double inversePivot = 1 / rows[k][k];
-        int k1 = k + 1;
-        int n = rows.length;
+    private void pivot(final int k) {
+        final double inversePivot = 1 / rows[k][k];
+        final int k1 = k + 1;
+        final int n = rows.length;
         for (int i = k1; i < n; i++) {
             rows[i][k] *= inversePivot;
             for (int j = k1; j < n; j++) {
@@ -213,7 +215,7 @@ public class LUPDecomposition {
      * @return double[]
      * @param c double[]
      */
-    public double[] solve(double[] c) {
+    public double[] solve(final double[] c) {
         return decomposed()
                 ? backwardSubstitution(forwardSubstitution(c))
                 : null;
@@ -223,8 +225,8 @@ public class LUPDecomposition {
      * @return double[]
      * @param c double[]
      */
-    public Vector solve(Vector c) {
-        double[] components = solve(c.components);
+    public Vector solve(final Vector c) {
+        final double[] components = solve(c.components);
         if (components == null) {
             return null;
         }
@@ -235,7 +237,7 @@ public class LUPDecomposition {
      * @param i int
      * @param k int
      */
-    private void swapRows(int i, int k) {
+    private void swapRows(final int i, final int k) {
         if (i != k) {
             double temp;
             for (int j = 0; j < rows.length; j++) {
@@ -256,7 +258,7 @@ public class LUPDecomposition {
      *
      * @param components double
      */
-    public static void symmetrizeComponents(double[][] components) {
+    public static void symmetrizeComponents(final double[][] components) {
         for (int i = 0; i < components.length; i++) {
             for (int j = i + 1; j < components.length; j++) {
                 components[i][j] += components[j][i];
