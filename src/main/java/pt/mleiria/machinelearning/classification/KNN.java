@@ -206,7 +206,7 @@ public class KNN {
 		boolean isSplit = false;
 		// With split data
 		if (isSplit) {
-			KNN knn = new KNN("/home/manuel/tools/adalineProcesses/mlearning/knn/iris.data", 0.66);
+			KNN knn = new KNN("/home/manuel/Tools/adalineProcesses/mlearning/knn/iris.data", 0.66);
 			knn.loadDataSet();
 			int k = 3;
 			List<String> results = new ArrayList<String>();
@@ -223,7 +223,7 @@ public class KNN {
 			double accuracy = knn.getAccuracy(knn.testSet, results.toArray(new String[results.size()]));
 			log.info("Accuracy: " + accuracy);
 		}else{
-			KNN knn = new KNN("/home/manuel/tools/adalineProcesses/mlearning/knn/iris_MinusOne.data");
+			KNN knn = new KNN("/home/manuel/Tools/adalineProcesses/mlearning/knn/iris_MinusOne.data");
 			knn.loadDataSet();
 			int k = 3;
 			Vector testVector = new Vector(new double[]{6.3, 3.3, 4.7, 1.6});

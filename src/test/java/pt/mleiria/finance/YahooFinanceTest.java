@@ -26,9 +26,9 @@ import yahoofinance.quotes.fx.FxSymbols;
  * @author manuel
  *
  */
-public class YahooFinanceTest extends TestCase{
+public class YahooFinanceTest /*extends TestCase*/{
 	private static final Logger log = Logger.getLogger("mlearningLog");
-	
+	/*
 	public void testSingleQuote(){
 		Stock stock = YahooFinance.get("AAPL");
 		 
@@ -107,4 +107,5 @@ public class YahooFinanceTest extends TestCase{
 		}
 		Assert.assertEquals(true, l.size() > 0);
 	}
+	*/
 }

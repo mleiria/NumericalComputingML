@@ -23,7 +23,7 @@ import pt.mleiria.machinelearning.regression.GradientDescent;
  */
 public class LinearRegMultiple {
 
-    private static final String path = "/home/manuel/tools/adalineProcesses/mlearning/dataFiles/";
+    private static final String path = "/home/manuel/Tools/adalineProcesses/mlearning/dataFiles/";
     private final static String dataFile = path + "housePrice.txt";
     private final static String costHistory = path +"JGDM.txt";
 

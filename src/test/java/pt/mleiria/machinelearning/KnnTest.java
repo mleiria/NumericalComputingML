@@ -22,7 +22,7 @@ public class KnnTest extends TestCase{
      */
     private static final Logger log = Logger.getLogger("mlearningLog");
     
-	private final String dataFile = "/home/manuel/tools/adalineProcesses/mlearning/knn/iris.data";
+	private final String dataFile = "/home/manuel/Tools/adalineProcesses/mlearning/knn/iris.data";
 	private KNN knn; 
 	
 	@Override

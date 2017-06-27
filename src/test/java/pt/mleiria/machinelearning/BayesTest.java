@@ -19,7 +19,7 @@ public class BayesTest extends TestCase{
      */
     private static final Logger log = Logger.getLogger("mlearningLog");
     
-    private final String dataFile = "/home/manuel/tools/adalineProcesses/mlearning/bayes/pima-indians-diabetes.data.csv";
+    private final String dataFile = "/home/manuel/Tools/adalineProcesses/mlearning/bayes/pima-indians-diabetes.data.csv";
 	private Bayes bayes; 
 	
 	

@@ -173,8 +173,8 @@ public class LinearRegression {
 	}
 	
 	public static void main(String[] args){
-		double[] x = new double[]{15, 12, 8, 8, 7, 7, 7, 6, 5, 3};
-		double[] y = new double[]{10, 25, 17, 11, 13, 17, 20, 13, 9, 15};
+		double[] x = new double[]{1, 3, 5};
+		double[] y = new double[]{4.8, 11.3, 17.2};
 		int N = x.length;
 		LinearRegression lr = new LinearRegression();
 		for(int i = 0; i < N; i++){

@@ -174,7 +174,7 @@ public class Bayes {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		Bayes b = new Bayes("/home/manuel/tools/adalineProcesses/mlearning/bayes/pima-indians-diabetes.data.csv", 0.67);
+		Bayes b = new Bayes("/home/manuel/Tools/adalineProcesses/mlearning/bayes/pima-indians-diabetes.data.csv", 0.67);
 		b.loadDataSet();
 		Map<Integer, Matrix> tmp = b.separateByClass(b.dataSet);
 		
