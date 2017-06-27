@@ -15,6 +15,9 @@ import pt.mleiria.numericalAnalysis.utils.DataAccumulator;
  *
  */
 public class Starter {
+	public static String getHello(){
+		return "Hello";
+	}
 
 	/**
 	 * @param args
