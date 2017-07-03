@@ -172,16 +172,5 @@ public class LinearRegression {
 		return x * getSlope() + getIntercept();
 	}
 	
-	public static void main(String[] args){
-		double[] x = new double[]{1, 3, 5};
-		double[] y = new double[]{4.8, 11.3, 17.2};
-		int N = x.length;
-		LinearRegression lr = new LinearRegression();
-		for(int i = 0; i < N; i++){
-			lr.add(x[i], y[i]);
-		}
-		lr.computeResults();
-		System.out.println(lr.intercept);
-		System.out.println(lr.slope);
-	}
+	
 }

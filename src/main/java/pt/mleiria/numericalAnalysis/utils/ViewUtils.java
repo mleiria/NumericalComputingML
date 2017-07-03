@@ -128,4 +128,33 @@ public class ViewUtils {
     	}
     	return sb.toString();
     }
+    /**
+     * 
+     * @param data
+     * @return
+     */
+    public static String showHtmlTable(final List<String[]> data){
+    	final StringBuffer sb = new StringBuffer();
+    	sb.append("<table>\n");
+    	for(final String[] row : data){
+    		sb.append("<tr>");
+    		for(final String str : row){
+    			sb.append("<td>" + str + "</td>");
+    		}
+    		sb.append("</tr>\n");
+    	}
+    	sb.append("</table>");
+    	return sb.toString();
+    }
+    
+    public static String showArrayPyFormat(final List<String[]> data, int colIndex){
+    	final StringBuffer sb = new StringBuffer();
+    	sb.append("[");
+    	for(final String[] row : data){
+    		sb.append(row[colIndex]);
+    		sb.append(", ");
+    	}
+    	sb.append("]");
+    	return sb.toString();
+    }
 }

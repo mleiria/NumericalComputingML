@@ -37,7 +37,8 @@ public class PerformanceTest {
     	shuffleArraysFicherYates(arrF);
     	*/
     	
-    	dotProduct();
+    	//dotProduct();
+    	matrixTest();
     }
     private static void dotProduct(){
         int N = 500;
