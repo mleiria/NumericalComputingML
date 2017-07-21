@@ -264,5 +264,13 @@ public class MatrixTest extends TestCase {
         Assert.assertEquals(17.0, c.component(0));
         Assert.assertEquals(39.0, c.component(1));
     }
+    
+    public void testAppendColumn(){
+    	final Vector v = new Vector(new double[]{5.0,5.0});
+    	final Matrix m = a.append(v);
+    	log.info("Appended Matrix: \n" + m.toString());
+    	Assert.assertEquals(3, m.columns());
+    	Assert.assertEquals(5.0, m.component(0, 2));
+    }
 
 }

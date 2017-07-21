@@ -11,14 +11,14 @@ import pt.mleiria.machinelearning.regression.LinearRegression;
 
 public class CSVReader {
 	
-	final String csvFile;
+	private final String csvFile;
 	
 	public CSVReader(final String csvFile) {
 		this.csvFile = csvFile;
 	}
 	
 	public CSVReader() {
-		this("/media/manuel/workspace/BookWrite/advogadosRaw.csv");
+		this("/media/manuel/workspace/BookWrite/csvRFile.csv");
 	}
 
 	/**

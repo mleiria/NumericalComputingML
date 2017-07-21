@@ -612,6 +612,28 @@ public class Matrix {
 		}
 		return new Matrix(newComponents);
 	}
+	/**
+	 * Append a column in the end of the receiver
+	 *
+	 * @return
+	 */
+	public Matrix append(final Vector v) {
+		final int rows = rows();
+		if(v.dimension() != rows()){
+			throw new IllegalArgumentException(v.dimension() + " not equal to " + rows);
+		}
+		
+		final int columns = columns() + 1;
+
+		double[][] newComponents = new double[rows][columns];
+		for (int i = 0; i < rows; i++) {
+			newComponents[i][columns - 1] = v.component(i);
+			for (int j = 0; j < columns - 1; j++) {
+				newComponents[i][j] = component(i, j);
+			}
+		}
+		return new Matrix(newComponents);
+	}
 
 	/**
 	 *

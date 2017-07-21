@@ -6,7 +6,9 @@
 package pt.mleiria.machinelearning.preprocess;
 
 import java.util.Arrays;
+
 import pt.mleiria.machinelearning.matrixAlgebra.Matrix;
+import pt.mleiria.machinelearning.matrixAlgebra.Vector;
 
 /**
  *
@@ -53,6 +55,13 @@ public class FeatNormMinMax implements FeatureNormalization {
 
         return new Matrix(newComponents);
 
+    }
+    /**
+     * 
+     */
+    @Override
+    public Vector normalize(Vector vector) {
+    	throw new UnsupportedOperationException("Not implemented yet");
     }
 
     /**

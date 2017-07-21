@@ -24,9 +24,9 @@ public class ViewUtils {
         sb.append("{");
         for (int i = 0; i < array.length; i++) {
             if (i == array.length - 1) {
-                sb.append(array[i]).append("\n");
+                sb.append(array[i]);
             } else {
-                sb.append(array[i]).append(";").append("\n");
+                sb.append(array[i]).append(",");
             }
         }
         sb.append("}");
@@ -38,13 +38,17 @@ public class ViewUtils {
      * @param arr
      * @return
      */
-    public static String showArrayContents(int[] arr) {
-        final StringBuffer sb = new StringBuffer();
-        sb.append("[");
-        for (int i = 0; i < arr.length; i++) {
-            sb.append(arr[i]).append(";");
+    public static String showArrayContents(int[] array) {
+    	StringBuilder sb = new StringBuilder();
+        sb.append("{");
+        for (int i = 0; i < array.length; i++) {
+            if (i == array.length - 1) {
+                sb.append(array[i]);
+            } else {
+                sb.append(array[i]).append(",");
+            }
         }
-        sb.append(arr[arr.length - 1]).append("]");
+        sb.append("}");
         return sb.toString();
     }
 
