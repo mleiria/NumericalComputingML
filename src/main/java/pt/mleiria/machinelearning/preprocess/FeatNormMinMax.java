@@ -6,6 +6,7 @@
 package pt.mleiria.machinelearning.preprocess;
 
 import java.util.Arrays;
+import java.util.stream.DoubleStream;
 
 import pt.mleiria.machinelearning.matrixAlgebra.Matrix;
 import pt.mleiria.machinelearning.matrixAlgebra.Vector;
@@ -82,6 +83,22 @@ public class FeatNormMinMax implements FeatureNormalization {
          */
         result[1] = tmpArr[tmpArr.length - 1];
         return result;
+    }
+    /**
+     * 
+     * @param column
+     * @return
+     */
+    public double getMin(final double[] column){
+	return DoubleStream.of(column).reduce(0, (x, y) -> x < y? x : y);
+    }
+    /**
+     * 
+     * @param column
+     * @return
+     */
+    public double getMax(final double[] column){
+	return DoubleStream.of(column).reduce(0, Double::max);
     }
 
 }
