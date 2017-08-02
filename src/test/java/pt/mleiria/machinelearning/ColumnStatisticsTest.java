@@ -21,7 +21,7 @@ public class ColumnStatisticsTest extends TestCase {
 	@Override
     protected void setUp() throws Exception {
         super.setUp();
-        FileLoader fl = new FileLoader();
+        FileLoader fl = new FileLoader("input/autocorrelation.txt");
         String str = fl.getFileToString("input/autocorrelation.txt");
         data = str.split("\n");
         autoCorrData = new double[data.length];

@@ -272,5 +272,20 @@ public class MatrixTest extends TestCase {
     	Assert.assertEquals(3, m.columns());
     	Assert.assertEquals(5.0, m.component(0, 2));
     }
+    
+    public void testPolynomialOrder(){
+	double[][] m = new double[2][2];
+        m[0][0] = 1;
+        m[1][0] = 1;
+        m[0][1] = 2;
+        m[1][1] = 2;
+        Matrix ma = new Matrix(m);
+        Matrix augmentedMatrix = ma.polynomialOrder(2);
+        Assert.assertEquals(3, augmentedMatrix.columns());
+        Assert.assertEquals(4.0, augmentedMatrix.component(1, 2));
+        
+        
+        
+    }
 
 }

@@ -1,14 +1,15 @@
 package pt.mleiria.plot;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
-import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.ui.ApplicationFrame;
@@ -27,7 +28,7 @@ public class ScatterFactory extends ApplicationFrame {
     private final Vector y;
     private String xLabel = " x label";
     private String yLabel = "y label";
-    private String chartName = "Chart Name";
+    private String chartName = "Dados Reais";
     private final String title;
 
     //private XYDataset dataset;
@@ -68,10 +69,10 @@ public class ScatterFactory extends ApplicationFrame {
      * 
      * @param polyList
      */
-    public void addSeries(final List<PolynomialFunction> polyList) {
+    public void addSeries(final List<PolynomialFunction> polyList, final List<String> plotNames) {
 	int cnt = 1;
 	for (PolynomialFunction pf : polyList) {
-	    XYSeries linePoints = new XYSeries(chartName);
+	    XYSeries linePoints = new XYSeries(plotNames.get(cnt-1));
 	    for (int i = 0; i < x.dimension(); i++) {
 		double xValue = x.component(i);
 		linePoints.add(xValue, pf.value(xValue));
@@ -86,12 +87,16 @@ public class ScatterFactory extends ApplicationFrame {
      * 
      */
     public void buildPlot() {
-	System.out.println(datasetCollection.getSeriesCount());
 	//dataset = datasetCollection;
 	JFreeChart chart = ChartFactory.createXYLineChart(title, xLabel, yLabel, datasetCollection, PlotOrientation.VERTICAL,
 		true, false, false);
 	XYPlot plot = (XYPlot) chart.getPlot();
 	plot.setRenderer(renderer);
+	NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
+	//rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
+	((NumberAxis)plot.getDomainAxis()).setNumberFormatOverride(new DecimalFormat("0"));
+	rangeAxis.setAutoRangeIncludesZero(false);
+	
 	final ChartPanel chartPanel = new ChartPanel(chart);
 	chartPanel.setPreferredSize(new java.awt.Dimension(500, 300));
 	setContentPane(chartPanel);

@@ -38,11 +38,13 @@ public class GradientDescentTest extends TestCase {
         super.setUp();
         String separator = ",";
         try {
-        	FileLoader fl = new FileLoader();
-        	a = fl.getFileCsvToMatrix("input/ex1data1.txt", true, separator);
+        	FileLoader fl = new FileLoader("input/ex1data1.txt");
+        	a = fl.getFileCsvToMatrix(true, separator);
         	mlearningLog.info("EX1DATA1:\n" + a.toString());
         	
-        	aMulti = fl.getFileCsvToMatrix("input/ex1data2.txt", true, separator);
+        	
+        	fl = new FileLoader("input/ex1data2.txt");
+        	aMulti = fl.getFileCsvToMatrix(true, separator);
         	mlearningLog.info("EX1DATA2:\n" + aMulti.toString());
         	
         	
