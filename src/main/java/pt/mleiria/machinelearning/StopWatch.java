@@ -13,7 +13,7 @@ import static java.lang.System.currentTimeMillis;
  */
 public class StopWatch {
 
-    private long start;
+    private final long start;
 
     public StopWatch() {
         start = currentTimeMillis();
