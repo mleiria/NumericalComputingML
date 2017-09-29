@@ -1,5 +1,7 @@
 package pt.mleiria.machinelearning.matrixAlgebra;
 
+import static pt.mleiria.machinelearning.matrixAlgebra.MatrixUtils.identity;
+
 /**
  * Symmetric matrix when A = A transposed
  *
@@ -68,7 +70,7 @@ public class SymmetricMatrix extends Matrix {
         splitMatrices[2] = splitMatrices[1].secureProduct(cb1);
         splitMatrices[0] = b1.secureAdd(new SymmetricMatrix(
                 cb1.transposedProductComponents(splitMatrices[2])));
-        return SymmetricMatrix.join(splitMatrices);
+        return join(splitMatrices);
     }
 
     /**
@@ -99,7 +101,7 @@ public class SymmetricMatrix extends Matrix {
      * @param n int
      */
     public static SymmetricMatrix identityMatrix(int n) {
-        return (SymmetricMatrix) (new Matrix(n).identity());
+        return (SymmetricMatrix) identity(n, n);
     }
 
     /**
@@ -203,8 +205,8 @@ public class SymmetricMatrix extends Matrix {
     }
 
     /**
-     * @return Matrix	product of the receiver with the
-     * transpose of the supplied matrix
+     * @return Matrix	product of the receiver with the transpose of the supplied
+     * matrix
      * @param a Matrix
      */
     public SymmetricMatrix productWithTransposed(SymmetricMatrix a) {

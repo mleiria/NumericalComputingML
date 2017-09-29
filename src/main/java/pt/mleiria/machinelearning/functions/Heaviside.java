@@ -11,22 +11,17 @@ import pt.mleiria.machinelearning.interfaces.OneVarFunction;
  *
  * @author manuel
  */
-public class Heaviside implements OneVarFunction{
+public class Heaviside implements OneVarFunction<Double> {
 
-    private final double threshold;
+    private final Double threshold;
 
-    public Heaviside(final double threshold) {
+    public Heaviside(final Double threshold) {
         this.threshold = threshold;
     }
-    
-    
-    
+
     @Override
-    public double value(double x) {
-        if (x > threshold) {
-            return 1.0;
-        }
-        return 0.0;
+    public Double value(Double x) {
+        return x > threshold ? 1.0 : 0.0;
     }
-    
+
 }

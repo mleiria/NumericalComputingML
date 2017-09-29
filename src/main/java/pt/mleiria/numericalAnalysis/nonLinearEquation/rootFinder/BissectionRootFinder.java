@@ -4,12 +4,20 @@
  */
 package pt.mleiria.numericalAnalysis.nonLinearEquation.rootFinder;
 
+import static java.lang.Math.abs;
+import static java.lang.String.valueOf;
+import static java.lang.String.valueOf;
 import pt.mleiria.machinelearning.interfaces.OneVarFunction;
 import pt.mleiria.numericalAnalysis.exception.InvalidIntervalException;
 import pt.mleiria.numericalAnalysis.exception.IterationCountExceededException;
 import pt.mleiria.numericalAnalysis.utils.DataAccumulator;
+import static pt.mleiria.numericalAnalysis.utils.DataAccumulator.feedAccumulator;
 import pt.mleiria.numericalAnalysis.utils.Epsilon;
+import static pt.mleiria.numericalAnalysis.utils.Epsilon.doubleValue;
 import pt.mleiria.numericalAnalysis.utils.Utils;
+import static pt.mleiria.numericalAnalysis.utils.Utils.formataNumero;
+import static pt.mleiria.numericalAnalysis.utils.Utils.print;
+import static pt.mleiria.numericalAnalysis.utils.Utils.println;
 
 /**
  * @author Manuel Leiria
@@ -54,7 +62,7 @@ public class BissectionRootFinder extends AbstractRootFinder {
     public BissectionRootFinder(OneVarFunction f, int maxIters, double a,
             double b) throws InvalidIntervalException {
 
-        super(f, maxIters, Epsilon.doubleValue());
+        super(f, maxIters, doubleValue());
         checkInterval(a, b);
         // Inicializacao
         this.am = a;
@@ -76,7 +84,7 @@ public class BissectionRootFinder extends AbstractRootFinder {
      */
     public boolean hasConverged() {
 
-        if ((Math.abs(xm1 - xm) <= comparisonTollerance)
+        if ((abs(xm1 - xm) <= comparisonTollerance)
                 || (f.value(xm1) <= comparisonTollerance && f.value(xm1) >= -comparisonTollerance)) {
             return true;
         } else {
@@ -92,24 +100,24 @@ public class BissectionRootFinder extends AbstractRootFinder {
     public void findRoot() throws IterationCountExceededException {
         //Start Logger
         String[][] data = new String[][]{
-            {String.valueOf(getIterationCount()), "5"},
-            {Utils.formataNumero(xm1, "##0.00000000"), "20"},
+            {valueOf(getIterationCount()), "5"},
+            {formataNumero(xm1, "##0.00000000"), "20"},
             {
-                Utils.formataNumero(f.value(xm1),
+                formataNumero(f.value(xm1),
                 "##0.00000000"), "20"},
             {
-                Utils.formataNumero(1.41421356 - xm1,
+                formataNumero(1.41421356 - xm1,
                 "##0.00000000"), "20"}};
-        DataAccumulator.feedAccumulator(data);
+        feedAccumulator(data);
 
-        Utils.print(String.valueOf(getIterationCount()), 5);
-        Utils.print(Utils.formataNumero(xm1,
+        print(valueOf(getIterationCount()), 5);
+        print(formataNumero(xm1,
                 "##0.00000000"), 20);
-        Utils.print(Utils.formataNumero(f
+        print(formataNumero(f
                 .value(xm1), "##0.00000000"), 20);
-        Utils.print(Utils.formataNumero(
+        print(formataNumero(
                 1.41421356 - xm1, "##0.00000000"), 20);
-        Utils.println();
+        println();
         //End Logger
         checkIterationCount();
         computeNextPosition();

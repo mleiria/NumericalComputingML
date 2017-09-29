@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package pt.mleiria.numericalAnalysis.exception;
 
@@ -8,25 +8,25 @@ package pt.mleiria.numericalAnalysis.exception;
  *
  */
 public class PositionUnchangedException extends Exception {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 
-	/**
-	 * IllegalDimension constructor comment.
-	 */
-	public PositionUnchangedException() {
-		super();
-	}
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * IllegalDimension constructor comment.
-	 * 
-	 * @param s
-	 *            java.lang.String
-	 */
-	public PositionUnchangedException(String s) {
-		super(s);
-	}
+    /**
+     * IllegalDimension constructor comment.
+     */
+    public PositionUnchangedException() {
+        super();
+    }
+
+    /**
+     * IllegalDimension constructor comment.
+     *
+     * @param s java.lang.String
+     */
+    public PositionUnchangedException(String s) {
+        super(s);
+    }
 }

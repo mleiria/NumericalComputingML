@@ -3,6 +3,13 @@
  */
 package pt.mleiria.machinelearning.matrixAlgebra;
 
+import static java.lang.Math.random;
+import static java.lang.Math.sqrt;
+import static java.lang.System.arraycopy;
+import static java.util.Arrays.stream;
+import java.util.DoubleSummaryStatistics;
+import static java.util.stream.Collectors.summarizingDouble;
+
 /**
  *
  * @author manuel
@@ -22,7 +29,7 @@ public class Vector {
             throw new IllegalArgumentException("Empty Vector not allowed");
         }
         components = new double[n];
-        System.arraycopy(comp, 0, components, 0, n);
+        arraycopy(comp, 0, components, 0, n);
     }
 
     /**
@@ -88,19 +95,20 @@ public class Vector {
         }
         return new Vector(newComponents);
     }
+
     /**
-     * 
+     *
      * @param v
-     * @return 
+     * @return
      */
-    public Vector subtract(Vector v){
+    public Vector subtract(Vector v) {
         v = v.product(-1);
         return add(v);
     }
+
     /**
      * @return Matrix	tensor product with the specified vector
-     * @param v Vector	second vector to build tensor product
-     * with.
+     * @param v Vector	second vector to build tensor product with.
      */
     public Matrix tensorProduct(Vector v) {
         int n = dimension();
@@ -113,6 +121,7 @@ public class Vector {
         }
         return new Matrix(newComponents);
     }
+
     /**
      * Sets all components of the receiver to 0.
      */
@@ -164,7 +173,7 @@ public class Vector {
         for (int i = 0; i < components.length; i++) {
             sum += components[i] * components[i];
         }
-        return Math.sqrt(sum);
+        return sqrt(sum);
     }
 
     /**
@@ -276,19 +285,29 @@ public class Vector {
         final int m = dimension();
         final double[] v = new double[m];
         for (int i = 0; i < m; i++) {
-            v[i] = Math.random();
-            }
+            v[i] = random();
+        }
         return new Vector(v);
     }
-    
+
     /**
      * @return double[]	a copy of the components of the receiver.
      */
     public double[] toComponents() {
         int n = dimension();
         double[] answer = new double[n];
-        System.arraycopy(components, 0, answer, 0, n);
+        arraycopy(components, 0, answer, 0, n);
         return answer;
+
+    }
+
+    /**
+     *
+     * @return Statistics for the vector
+     */
+    public DoubleSummaryStatistics getSummaryStatistics() {
+        return stream(components).mapToObj(d -> d)
+                .collect(summarizingDouble(Double::doubleValue));
     }
 
     /**

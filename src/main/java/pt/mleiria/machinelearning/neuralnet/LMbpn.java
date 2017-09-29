@@ -5,6 +5,9 @@
  */
 package pt.mleiria.machinelearning.neuralnet;
 
+import static java.lang.Math.exp;
+import static java.lang.Math.random;
+
 /**
  *
  * @author manuel
@@ -48,13 +51,13 @@ public class LMbpn {
         // Initialize weights randomly between 0.1 and 0.9
         for (i = 0; i < w1.length; i++) {
             for (j = 0; j < w1[i].length; j++) {
-                w1[i][j] = Math.random() * 0.8 + 0.1;
+                w1[i][j] = random() * 0.8 + 0.1;
             }
         }
 
         for (i = 0; i < w2.length; i++) {
             for (j = 0; j < w2[i].length; j++) {
-                w2[i][j] = Math.random() * 0.8 + 0.1;
+                w2[i][j] = random() * 0.8 + 0.1;
             }
         }
     }
@@ -83,7 +86,7 @@ public class LMbpn {
             for (i = 0; i < input.length; i++) {
                 sum = sum + w1[i][j] * input[i];
             }
-            hidden[j] = 1 / (1 + Math.exp(-sum));
+            hidden[j] = 1 / (1 + exp(-sum));
         }
         // Calculate output units
         for (j = 0; j < output.length; j++) {
@@ -91,16 +94,20 @@ public class LMbpn {
             for (i = 0; i < hidden.length; i++) {
                 sum = sum + w2[i][j] * hidden[i];
             }
-            output[j] = 1 / (1 + Math.exp(-sum));
+            output[j] = 1 / (1 + exp(-sum));
         }
         // Calculate delta2 errors
         for (j = 0; j < output.length; j++) {
-            if (out[j] == 0) {
-                out_j = 0.1;
-            } else if (out[j] == 1) {
-                out_j = 0.9;
-            } else {
-                out_j = out[j];
+            switch (out[j]) {
+                case 0:
+                    out_j = 0.1;
+                    break;
+                case 1:
+                    out_j = 0.9;
+                    break;
+                default:
+                    out_j = out[j];
+                    break;
             }
             delta2[j] = output[j] * (1 - output[j]) * (out_j - output[j]);
         }
@@ -139,7 +146,7 @@ public class LMbpn {
             for (i = 0; i < input.length; i++) {
                 sum = sum + w1[i][j] * input[i];
             }
-            hidden[j] = 1 / (1 + Math.exp(-sum));
+            hidden[j] = 1 / (1 + exp(-sum));
         }
         // Calculate output units
         for (j = 0; j < output.length; j++) {
@@ -147,7 +154,7 @@ public class LMbpn {
             for (i = 0; i < hidden.length; i++) {
                 sum = sum + w2[i][j] * hidden[i];
             }
-            output[j] = 1 / (1 + Math.exp(-sum));
+            output[j] = 1 / (1 + exp(-sum));
         }
         // Assign output to param out[]
         for (i = 0; i < output.length; i++) {

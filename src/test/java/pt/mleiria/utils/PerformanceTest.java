@@ -1,12 +1,18 @@
 package pt.mleiria.utils;
 
+import static java.lang.System.out;
 import java.util.Collections;
+import static java.util.Collections.shuffle;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
+import static java.util.stream.Collectors.toList;
 import java.util.stream.DoubleStream;
+import static java.util.stream.DoubleStream.of;
 
 import pt.mleiria.machinelearning.matrixAlgebra.Matrix;
+import pt.mleiria.machinelearning.matrixAlgebra.MatrixUtils;
+import static pt.mleiria.machinelearning.matrixAlgebra.MatrixUtils.rand;
 import pt.mleiria.machinelearning.matrixAlgebra.Vector;
 import pt.mleiria.numericalAnalysis.utils.TimeLog;
 
@@ -61,8 +67,8 @@ public class PerformanceTest {
 
 	TimeLog tl = new TimeLog();
 	Matrix finalV = m.multiply(mm);
-	System.out.println(tl.elapsedTime());
-	System.out.println(finalV.toString());
+	out.println(tl.elapsedTime());
+	out.println(finalV.toString());
 
     }
 
@@ -77,9 +83,9 @@ public class PerformanceTest {
 	    arr[index] = arr[i];
 	    arr[i] = a;
 	}
-	System.out.println("\nElapsed time Fisher:" + tl.elapsedTime());
+	out.println("\nElapsed time Fisher:" + tl.elapsedTime());
 	for (int i = 0; i < 5; i++) {
-	    System.out.print(arr[i] + " ; ");
+	    out.print(arr[i] + " ; ");
 	}
 
     }
@@ -89,13 +95,13 @@ public class PerformanceTest {
 	int size = arr.length;
 	// Collections Shuffle
 	TimeLog tl = new TimeLog();
-	List<Double> d = DoubleStream.of(arr).mapToObj(Double::valueOf).collect(Collectors.toList());
-	Collections.shuffle(d);
+	List<Double> d = of(arr).mapToObj(Double::valueOf).collect(toList());
+	shuffle(d);
 	for (int i = 0; i < size; i++)
 	    arr[i] = d.get(i);
-	System.out.println("\nElapsed time Collections:" + tl.elapsedTime());
+	out.println("\nElapsed time Collections:" + tl.elapsedTime());
 	for (int i = 0; i < 5; i++) {
-	    System.out.print(arr[i] + " ; ");
+	    out.print(arr[i] + " ; ");
 	}
     }
 
@@ -104,37 +110,37 @@ public class PerformanceTest {
 	StringBuilder y = new StringBuilder();
 	for (int i = 100; i < 3000; i = i + 150) {
 
-	    final Matrix a = new Matrix(i).rand();
-	    final Matrix b = new Matrix(i).rand();
+	    final Matrix a = rand(i, i);
+	    final Matrix b = rand(i, i);
 
 	    TimeLog tl = new TimeLog();
 	    final Matrix mul = a.multiply(b);
 	    double time = tl.elapsedTime();
-	    System.out.println(i + "," + time);
+	    out.println(i + "," + time);
 	    x.append(i).append(",");
 	    y.append(time).append(",");
 	}
-	System.out.println(x.toString());
-	System.out.println(y.toString());
+	out.println(x.toString());
+	out.println(y.toString());
 
-	System.out.println("--------------------");
+	out.println("--------------------");
 
 	x = new StringBuilder();
 	y = new StringBuilder();
 	for (int i = 100; i < 3000; i = i + 150) {
 
-	    final Matrix a = new Matrix(i).rand();
+	    final Matrix a = rand(i, i);
 	    final Vector b = new Vector(i).rand();
 
 	    TimeLog tl = new TimeLog();
 	    final Vector mul = b.product(a);
 	    double time = tl.elapsedTime();
-	    System.out.println(i + "," + time);
+	    out.println(i + "," + time);
 	    x.append(i).append(",");
 	    y.append(time).append(",");
 	}
-	System.out.println(x.toString());
-	System.out.println(y.toString());
+	out.println(x.toString());
+	out.println(y.toString());
     }
 
 }

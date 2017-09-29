@@ -4,7 +4,7 @@ package pt.mleiria.machinelearning.interfaces;
  *
  * @author manuel
  */
-public interface OneVarFunctionDerivative extends OneVarFunction {
+public interface OneVarFunctionDerivative<T> extends OneVarFunction<T> {
 
     /**
      * Retorna o valor da derivada da funcao para o valor especificado da
@@ -13,6 +13,6 @@ public interface OneVarFunctionDerivative extends OneVarFunction {
      * @param x o valor par o qual se quer calcular df(x)/dx
      * @return df(x)/dx
      */
-    public double derivative(double x);
+    public T derivative(T x);
 
 }

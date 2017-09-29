@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package pt.mleiria.machinelearning.interfaces;
 
@@ -9,5 +9,5 @@ package pt.mleiria.machinelearning.interfaces;
  */
 public interface DataReader {
 
-	void loadDataSet();
+    void loadDataSet();
 }

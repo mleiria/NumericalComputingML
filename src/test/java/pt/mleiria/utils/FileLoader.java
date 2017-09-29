@@ -8,12 +8,16 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import static java.lang.Double.parseDouble;
+import static java.lang.System.arraycopy;
+import static java.lang.System.out;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 import pt.mleiria.machinelearning.matrixAlgebra.Matrix;
 import pt.mleiria.numericalAnalysis.utils.IOUtils;
+import static pt.mleiria.numericalAnalysis.utils.IOUtils.loadMatrix;
 
 /**
  * @author manuel
@@ -102,7 +106,7 @@ public class FileLoader {
 		} else {
 		    String[] line = scanner.nextLine().split(",");
 		    for (int i = 0; i < line.length; i++) {
-			components[currentRow][i] = Double.parseDouble(line[i]);
+			components[currentRow][i] = parseDouble(line[i]);
 		    }
 		    currentRow++;
 		}
@@ -165,7 +169,7 @@ public class FileLoader {
 	    while ((line = br.readLine()) != null) {
 		final String[] row = line.split(csvSplitBy);
 		final String[] subRow = new String[numColsToRead];
-		System.arraycopy(row, 0, subRow, 0, numColsToRead);
+		arraycopy(row, 0, subRow, 0, numColsToRead);
 		res.add(subRow);
 	    }
 	} catch (FileNotFoundException e) {
@@ -187,7 +191,7 @@ public class FileLoader {
     public static void main(String[] args) {
 	final FileLoader fl = new FileLoader("input/100MetrosOlymp.csv");
 	final List<String[]> lst = fl.readCSVFile(",", 2);
-	final Matrix m = IOUtils.loadMatrix(lst);
-	System.out.println(m.toString());
+	final Matrix m = loadMatrix(lst);
+	out.println(m.toString());
     }
 }

@@ -6,7 +6,10 @@
 package pt.mleiria.machinelearning.preprocess;
 
 import java.util.Arrays;
+import static java.util.Arrays.sort;
 import java.util.stream.DoubleStream;
+import static java.util.stream.DoubleStream.of;
+import static java.util.stream.DoubleStream.of;
 
 import pt.mleiria.machinelearning.matrixAlgebra.Matrix;
 import pt.mleiria.machinelearning.matrixAlgebra.Vector;
@@ -47,22 +50,23 @@ public class FeatNormMinMax implements FeatureNormalization {
             }
             double[] menorMaior = getMinMax(colVector);
             for (int j = 0; j < rows; j++) {
-                newComponents[j][i] = min + 
-                                        ((matrix.component(j, i) - menorMaior[0]) / 
-                                        (menorMaior[1] - menorMaior[0]) * 
-                                        (max - min));
+                newComponents[j][i] = min
+                        + ((matrix.component(j, i) - menorMaior[0])
+                        / (menorMaior[1] - menorMaior[0])
+                        * (max - min));
             }
         }
 
         return new Matrix(newComponents);
 
     }
+
     /**
-     * 
+     *
      */
     @Override
     public Vector normalize(Vector vector) {
-    	throw new UnsupportedOperationException("Not implemented yet");
+        throw new UnsupportedOperationException("Not implemented yet");
     }
 
     /**
@@ -72,7 +76,7 @@ public class FeatNormMinMax implements FeatureNormalization {
      */
     private double[] getMinMax(final double[] column) {
         final double[] tmpArr = column;
-        Arrays.sort(tmpArr);
+        sort(tmpArr);
         final double[] result = new double[2];
         /**
          * Menor
@@ -84,21 +88,23 @@ public class FeatNormMinMax implements FeatureNormalization {
         result[1] = tmpArr[tmpArr.length - 1];
         return result;
     }
+
     /**
-     * 
+     *
      * @param column
      * @return
      */
-    public double getMin(final double[] column){
-	return DoubleStream.of(column).reduce(0, (x, y) -> x < y? x : y);
+    public double getMin(final double[] column) {
+        return of(column).reduce(0, (x, y) -> x < y ? x : y);
     }
+
     /**
-     * 
+     *
      * @param column
      * @return
      */
-    public double getMax(final double[] column){
-	return DoubleStream.of(column).reduce(0, Double::max);
+    public double getMax(final double[] column) {
+        return of(column).reduce(0, Double::max);
     }
 
 }

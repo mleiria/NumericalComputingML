@@ -1,5 +1,8 @@
 package pt.mleiria.machinelearning.statistics;
 
+import static java.lang.Double.NaN;
+import static java.lang.Math.sqrt;
+
 /**
  *
  * @author manuel
@@ -54,7 +57,7 @@ public class StatisticalMoments {
      */
     public double kurtosis() throws ArithmeticException {
         if (moments[0] < 4) {
-            return Double.NaN;
+            return NaN;
         }
         double x1 = average();
         double x2 = moments[2] / moments[0];
@@ -78,7 +81,7 @@ public class StatisticalMoments {
      */
     public double skewness() throws ArithmeticException {
         if (moments[0] < 3) {
-            return Double.NaN;
+            return NaN;
         }
         double x1 = average();
         double x2 = moments[2] / moments[0];
@@ -97,7 +100,7 @@ public class StatisticalMoments {
      * @return double standard deviation.
      */
     public double standardDeviation() {
-        return Math.sqrt(variance());
+        return sqrt(variance());
     }
 
     /**
@@ -117,7 +120,7 @@ public class StatisticalMoments {
      */
     public double variance() throws ArithmeticException {
         if (moments[0] < 2) {
-            return Double.NaN;
+            return NaN;
         }
         double average = average();
         return (moments[0] / (moments[0] - 1))

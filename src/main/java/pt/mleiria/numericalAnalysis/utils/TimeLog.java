@@ -5,6 +5,8 @@
  */
 package pt.mleiria.numericalAnalysis.utils;
 
+import static java.lang.System.currentTimeMillis;
+
 /**
  *
  * @author manuel
@@ -17,7 +19,7 @@ public final class TimeLog {
      * Create a TimeLog object.
      */
     public TimeLog() {
-        start = System.currentTimeMillis();
+        start = currentTimeMillis();
     }
 
     /**
@@ -26,7 +28,7 @@ public final class TimeLog {
      * @return
      */
     public double elapsedTime() {
-        long now = System.currentTimeMillis();
+        long now = currentTimeMillis();
         return (now - start) / 1000.0;
     }
 }

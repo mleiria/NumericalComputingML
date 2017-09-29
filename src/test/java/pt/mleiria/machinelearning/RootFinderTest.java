@@ -11,6 +11,7 @@ import pt.mleiria.machinelearning.interfaces.OneVarFunction;
 import pt.mleiria.machinelearning.interfaces.OneVarFunctionDerivative;
 import pt.mleiria.machinelearning.rootfinder.NewtonRootFinder;
 import pt.mleiria.numericalAnalysis.mathUtils.Function.RootFunctions;
+import static pt.mleiria.numericalAnalysis.mathUtils.Function.RootFunctions.function;
 
 
 /**
@@ -19,7 +20,7 @@ import pt.mleiria.numericalAnalysis.mathUtils.Function.RootFunctions;
  */
 public class RootFinderTest extends TestCase {
     
-    private OneVarFunction f = RootFunctions.function("x^2 - 2");
+    private OneVarFunction f = function("x^2 - 2");
     
     public void testNewtoonRootFinder(){
         final double desiredPrecision = 5E-12;
@@ -29,7 +30,7 @@ public class RootFinderTest extends TestCase {
             nrf = new NewtonRootFinder((OneVarFunctionDerivative)f, a, b, 110);
             nrf.setDesiredPrecision(desiredPrecision);
             nrf.evaluate();
-            Assert.assertEquals(1.4142135623834682, nrf.getRoot());
+            assertEquals(1.4142135623834682, nrf.getRoot());
 
     }
     

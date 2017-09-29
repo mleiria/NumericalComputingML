@@ -16,8 +16,8 @@ public class ConvertToNumericDummyTest extends TestCase{
 		for(String str : flowersClass){
 			conv.put(str);
 		}
-		Assert.assertEquals(3, conv.getSize());
-		Assert.assertEquals("Iris-setosa", conv.getRealValue(0));
-		Assert.assertEquals("Iris-virginica", conv.getRealValue(2));
+		assertEquals(3, conv.getSize());
+		assertEquals("Iris-setosa", conv.getRealValue(0));
+		assertEquals("Iris-virginica", conv.getRealValue(2));
 	}
 }

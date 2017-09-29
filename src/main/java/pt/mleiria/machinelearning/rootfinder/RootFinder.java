@@ -13,26 +13,28 @@ import pt.mleiria.numericalAnalysis.exception.InvalidIntervalException;
  *
  * @author manuel
  */
-public abstract class RootFinder extends IteratorProcessor{
-    
-    protected final OneVarFunction f;
+public abstract class RootFinder extends IteratorProcessor {
+
+    protected final OneVarFunction<Double> f;
+
     /**
-     * 
-     * @param f 
+     *
+     * @param f
      */
     public RootFinder(OneVarFunction f) {
         this.f = f;
     }
+
     /**
-     * 
-     * @return 
+     *
+     * @return
      */
     public abstract double getRoot();
-    
+
     /**
-     * 
-     * @throws InvalidIntervalException 
-     */   
+     *
+     * @throws InvalidIntervalException
+     */
     public abstract void checkInterval() throws InvalidIntervalException;
-    
+
 }

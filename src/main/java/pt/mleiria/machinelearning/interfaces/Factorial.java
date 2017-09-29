@@ -12,6 +12,11 @@ import java.math.BigInteger;
  * @author manuel
  */
 public interface Factorial {
-    
+
+    /**
+     *
+     * @param n
+     * @return
+     */
     BigInteger doFactorial(int n);
 }

@@ -12,6 +12,7 @@ import org.apache.log4j.Logger;
 
 import junit.framework.Assert;
 import junit.framework.TestCase;
+import static org.apache.log4j.Logger.getLogger;
 import pt.mleiria.numericalAnalysis.utils.IOUtils;
 import pt.mleiria.numericalAnalysis.utils.YahooFinancials;
 import pt.mleiria.utils.FileLoader;
@@ -27,7 +28,7 @@ import yahoofinance.quotes.fx.FxSymbols;
  *
  */
 public class YahooFinanceTest /*extends TestCase*/{
-	private static final Logger log = Logger.getLogger("mlearningLog");
+	private static final Logger log = getLogger("mlearningLog");
 	/*
 	public void testSingleQuote(){
 		Stock stock = YahooFinance.get("AAPL");

@@ -4,12 +4,14 @@
 package pt.mleiria.matrixAlgebra;
 
 import java.math.RoundingMode;
+import static java.math.RoundingMode.CEILING;
 import java.text.DecimalFormat;
 
 import org.apache.log4j.Logger;
 
 import junit.framework.Assert;
 import junit.framework.TestCase;
+import static org.apache.log4j.Logger.getLogger;
 import pt.mleiria.machinelearning.matrixAlgebra.LinearEquations;
 import pt.mleiria.machinelearning.matrixAlgebra.Vector;
 import pt.mleiria.numericalAnalysis.utils.ViewUtils;
@@ -20,7 +22,7 @@ import pt.mleiria.numericalAnalysis.utils.ViewUtils;
  */
 public class LinearEquationsTest extends TestCase{
 	
-	private static final Logger log = Logger.getLogger("mlearningLog");
+	private static final Logger log = getLogger("mlearningLog");
 	
 	public void testLinearEquation(){
 		double[][] rows = new double[3][3];
@@ -39,12 +41,12 @@ public class LinearEquationsTest extends TestCase{
 		LinearEquations le = new LinearEquations(rows, y);
 		Vector solution = le.solution();
 		DecimalFormat df = new DecimalFormat("#.#");
-		df.setRoundingMode(RoundingMode.CEILING);
+		df.setRoundingMode(CEILING);
 		
 		log.info("Solution:" + solution.toString());
 		log.info("Matrix:" + le.toString());
 		
-		Assert.assertEquals("1", df.format(solution.component(2)));
+		assertEquals("1", df.format(solution.component(2)));
 	}
 
 }

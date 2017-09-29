@@ -45,18 +45,19 @@ public class FeatNormMeanStdev implements FeatureNormalization {
         }
         return new Matrix(newComponents);
     }
+
     /**
-     * 
+     *
      * @param v
      * @return
      */
     @Override
-    public Vector normalize(final Vector v){
-    	mean = new double[1];
-    	stdev = new double[1];
-    	final int size = v.dimension();
-    	
-    	final StatisticalMoments sm = new StatisticalMoments();
+    public Vector normalize(final Vector v) {
+        mean = new double[1];
+        stdev = new double[1];
+        final int size = v.dimension();
+
+        final StatisticalMoments sm = new StatisticalMoments();
         for (int j = 0; j < size; j++) {
             sm.accumulate(v.component(j));
         }

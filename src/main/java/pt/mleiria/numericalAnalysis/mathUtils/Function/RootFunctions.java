@@ -1,9 +1,10 @@
 package pt.mleiria.numericalAnalysis.mathUtils.Function;
 
+import static java.lang.Math.cos;
+import static java.lang.Math.sin;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-import pt.mleiria.machinelearning.interfaces.OneVarFunction;
 import pt.mleiria.machinelearning.interfaces.OneVarFunctionDerivative;
 
 /**
@@ -14,7 +15,7 @@ public class RootFunctions {
     /**
      * tabela de funcoes global
      */
-    private static final Map<String, OneVarFunctionDerivative> TABLE = new HashMap<>(32);
+    private static final Map<String, OneVarFunctionDerivative<Double>> TABLE = new HashMap<>(32);
 
     // Introduz as funcoes na tabela
     static {
@@ -27,7 +28,7 @@ public class RootFunctions {
      * @param key the hash key
      * @return a funcao
      */
-    public static OneVarFunctionDerivative function(String key) {
+    public static OneVarFunctionDerivative<Double> function(String key) {
         return (OneVarFunctionDerivative) TABLE.get(key);
     }
 
@@ -43,65 +44,68 @@ public class RootFunctions {
      */
     private static void enterFunctions() {
         // Funcao f(x) = x^2 - 2
-        TABLE.put("x^2 - 2", new OneVarFunctionDerivative() {
+        TABLE.put("x^2 - 2", new OneVarFunctionDerivative<Double>() {
             /*
              * Implementa o interface OneVariableFunction 
              * @param double x
              * @return double
              */
             @Override
-            public double value(double x) {
+            public Double value(Double x) {
                 return x * x - 2;
             }
+
             /**
-             * 
+             *
              * @param x
-             * @return 
+             * @return
              */
             @Override
-            public double derivative(double x){
+            public Double derivative(Double x) {
                 return 2 * x;
             }
         });
         // Funcao f(x) = x^2 - 4
-        TABLE.put("x^2 - 4", new OneVarFunctionDerivative() {
+        TABLE.put("x^2 - 4", new OneVarFunctionDerivative<Double>() {
             /*
              * Implementa o interface OneVariableFunction 
              * @param double x
              * @return double
              */
             @Override
-            public double value(double x) {
+            public Double value(Double x) {
                 return x * x - 4;
             }
+
             /**
-             * 
+             *
              * @param x
-             * @return 
+             * @return
              */
             @Override
-            public double derivative(double x){
+            public Double derivative(Double x) {
                 return 2 * x;
             }
         });
         // Funcao f(x) = sin(x)
-        TABLE.put("sin(x)", new OneVarFunctionDerivative() {
+        TABLE.put("sin(x)", new OneVarFunctionDerivative<Double>() {
             /*
              * Implementa o interface OneVariableFunction @param double x
              * @return double
              */
             @Override
-            public double value(double x) {
-                return Math.sin(x);
+            public Double value(Double x) {
+                return sin(x);
             }
+
             /**
-             * 
+             *
              * @param x
-             * @return 
+             * @return
              */
             @Override
-            public double derivative(double x){
-                return Math.cos(x);
+            public Double derivative(Double x) {
+                return cos(x);
             }
         });
     }

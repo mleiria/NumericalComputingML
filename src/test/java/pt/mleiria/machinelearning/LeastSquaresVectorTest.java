@@ -3,6 +3,7 @@
  */
 package pt.mleiria.machinelearning;
 
+import static java.lang.Math.pow;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -10,11 +11,14 @@ import org.apache.log4j.Logger;
 
 import junit.framework.Assert;
 import junit.framework.TestCase;
+import static org.apache.log4j.Logger.getLogger;
 import pt.mleiria.machinelearning.matrixAlgebra.Matrix;
 import pt.mleiria.machinelearning.matrixAlgebra.Vector;
 import pt.mleiria.machinelearning.regression.LeastSquares;
 import pt.mleiria.numericalAnalysis.utils.IOUtils;
+import static pt.mleiria.numericalAnalysis.utils.IOUtils.loadMatrix;
 import pt.mleiria.numericalAnalysis.utils.Utils;
+import static pt.mleiria.numericalAnalysis.utils.Utils.setPrecision;
 import pt.mleiria.utils.FileLoader;
 
 /**
@@ -23,7 +27,7 @@ import pt.mleiria.utils.FileLoader;
  */
 public class LeastSquaresVectorTest extends TestCase {
 
-    private static final Logger log = Logger.getLogger("mlearningLog");
+    private static final Logger log = getLogger("mlearningLog");
 
     private Matrix X;
     private Vector t;
@@ -45,13 +49,13 @@ public class LeastSquaresVectorTest extends TestCase {
 	final LeastSquares ls = new LeastSquares(X, t);
 	final Vector res = ls.getCoeficients();
 
-	final double intercept = new BigDecimal(res.component(0), Utils.setPrecision(2)).doubleValue();
-	final double slope = new BigDecimal(res.component(1), Utils.setPrecision(2)).doubleValue();
+	final double intercept = new BigDecimal(res.component(0), setPrecision(2)).doubleValue();
+	final double slope = new BigDecimal(res.component(1), setPrecision(2)).doubleValue();
 
 	log.info("Intercept Simple:" + intercept + "; Slope:" + slope);
 	log.info(res.toString());
-	Assert.assertEquals(1.8, intercept);
-	Assert.assertEquals(3.1, slope);
+	assertEquals(1.8, intercept);
+	assertEquals(3.1, slope);
 
     }
 
@@ -68,18 +72,18 @@ public class LeastSquaresVectorTest extends TestCase {
 	// build a new column with x^2
 	final double[] tmp = new double[target.dimension()];
 	for (int i = 0; i < tmp.length; i++) {
-	    tmp[i] = Math.pow(x[i][1], 2);
+	    tmp[i] = pow(x[i][1], 2);
 	}
 	final Matrix features = originalFeatures.append(new Vector(tmp));
 	final LeastSquares ls = new LeastSquares(features, target);
 	final Vector res = ls.getCoeficients();
 
-	final double w0 = new BigDecimal(res.component(0), Utils.setPrecision(2)).doubleValue();
-	final double w1 = new BigDecimal(res.component(1), Utils.setPrecision(2)).doubleValue();
-	final double w2 = new BigDecimal(res.component(2), Utils.setPrecision(2)).doubleValue();
+	final double w0 = new BigDecimal(res.component(0), setPrecision(2)).doubleValue();
+	final double w1 = new BigDecimal(res.component(1), setPrecision(2)).doubleValue();
+	final double w2 = new BigDecimal(res.component(2), setPrecision(2)).doubleValue();
 
 	log.info("Intercept Quadratic: [" + w0 + ";" + w1 + ";" + w2);
-	Assert.assertEquals(3, features.columns());
+	assertEquals(3, features.columns());
     }
 
     public void testCubicFitting() {
@@ -95,12 +99,12 @@ public class LeastSquaresVectorTest extends TestCase {
 	// build a new column with x^2
 	final double[] tmp = new double[target.dimension()];
 	for (int i = 0; i < tmp.length; i++) {
-	    tmp[i] = Math.pow(x[i][1], 2);
+	    tmp[i] = pow(x[i][1], 2);
 	}
 	// build a new column with x^3
 	final double[] tmp1 = new double[target.dimension()];
 	for (int i = 0; i < tmp1.length; i++) {
-	    tmp1[i] = Math.pow(x[i][1], 3);
+	    tmp1[i] = pow(x[i][1], 3);
 	}
 
 	final Matrix features = originalFeatures.append(new Vector(tmp));
@@ -108,19 +112,19 @@ public class LeastSquaresVectorTest extends TestCase {
 	final LeastSquares ls = new LeastSquares(finalFeatures, target);
 	final Vector res = ls.getCoeficients();
 
-	final double w0 = new BigDecimal(res.component(0), Utils.setPrecision(2)).doubleValue();
-	final double w1 = new BigDecimal(res.component(1), Utils.setPrecision(2)).doubleValue();
-	final double w2 = new BigDecimal(res.component(2), Utils.setPrecision(2)).doubleValue();
-	final double w3 = new BigDecimal(res.component(3), Utils.setPrecision(2)).doubleValue();
+	final double w0 = new BigDecimal(res.component(0), setPrecision(2)).doubleValue();
+	final double w1 = new BigDecimal(res.component(1), setPrecision(2)).doubleValue();
+	final double w2 = new BigDecimal(res.component(2), setPrecision(2)).doubleValue();
+	final double w3 = new BigDecimal(res.component(3), setPrecision(2)).doubleValue();
 
 	log.info("Intercept Polynomial: [" + w0 + ";" + w1 + ";" + w2 + ";" + w3);
-	Assert.assertEquals(4, finalFeatures.columns());
+	assertEquals(4, finalFeatures.columns());
     }
 
     public void testLeastSquaresVector(){
 	final FileLoader fl = new FileLoader("input/100MetrosOlymp.csv");
 	final List<String[]> lst = fl.readCSVFile(",", 2);
-	final Matrix tmpMatrix = IOUtils.loadMatrix(lst);
+	final Matrix tmpMatrix = loadMatrix(lst);
 	final Matrix[] m = tmpMatrix.split(1);
 	final Matrix features = m[0].addOnes();
 	final Vector target = m[1].getColumn(0);
@@ -131,10 +135,10 @@ public class LeastSquaresVectorTest extends TestCase {
 	LeastSquares ls = new LeastSquares(features, target);
 	final Vector v = ls.getCoeficients();
 	log.info("LeastSqaures:" + v.toString());
-	Assert.assertEquals(36.41645590250516, ls.getCoeficients().component(0));
-	Assert.assertEquals(-0.013330885710962782, ls.getCoeficients().component(1));
-	Assert.assertEquals(2, features.columns());
-	Assert.assertEquals(27, target.dimension());
+	assertEquals(36.41645590250516, ls.getCoeficients().component(0));
+	assertEquals(-0.013330885710962782, ls.getCoeficients().component(1));
+	assertEquals(2, features.columns());
+	assertEquals(27, target.dimension());
     }
 
 }

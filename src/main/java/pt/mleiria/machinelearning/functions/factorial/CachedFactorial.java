@@ -5,6 +5,7 @@
  */
 package pt.mleiria.machinelearning.functions.factorial;
 
+import static java.lang.System.out;
 import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Map;
@@ -26,12 +27,12 @@ public class CachedFactorial extends RecursiveFactorial {
         }
         val = super.doFactorial(n);
         cache.put(n, val);
-        return val; 
+        return val;
     }
-    
-    public static void main(String[] args){
-    	CachedFactorial cf = new CachedFactorial();
-    	System.out.println(cf.doFactorial(100).toString());
+
+    public static void main(String[] args) {
+        CachedFactorial cf = new CachedFactorial();
+        out.println(cf.doFactorial(100).toString());
     }
 
 }

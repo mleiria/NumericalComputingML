@@ -3,6 +3,7 @@
  */
 package pt.mleiria.machinelearning;
 
+import static java.lang.Double.parseDouble;
 import junit.framework.Assert;
 import junit.framework.TestCase;
 import pt.mleiria.machinelearning.statistics.ColumnStatistics;
@@ -26,7 +27,7 @@ public class ColumnStatisticsTest extends TestCase {
         data = str.split("\n");
         autoCorrData = new double[data.length];
         for(int i = 0; i < data.length; i++){
-        	autoCorrData[i] = Double.parseDouble(data[i].trim());	
+        	autoCorrData[i] = parseDouble(data[i].trim());	
         }
 	}
 	/**
@@ -36,8 +37,8 @@ public class ColumnStatisticsTest extends TestCase {
 		
 		final ColumnStatistics cs = new ColumnStatistics(autoCorrData);
 		final double[] res = cs.getAutoCorrelation();
-		Assert.assertEquals(0.9951151116927492, res[0]);
-		Assert.assertEquals(-0.30089907355577905, res[1]);
-		Assert.assertEquals(-0.7396255766087496, res[2]);
+		assertEquals(0.9951151116927492, res[0]);
+		assertEquals(-0.30089907355577905, res[1]);
+		assertEquals(-0.7396255766087496, res[2]);
 	}
 }

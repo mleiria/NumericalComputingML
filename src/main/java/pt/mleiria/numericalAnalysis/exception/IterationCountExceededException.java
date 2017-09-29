@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package pt.mleiria.numericalAnalysis.exception;
 
@@ -8,25 +8,25 @@ package pt.mleiria.numericalAnalysis.exception;
  *
  */
 public class IterationCountExceededException extends Exception {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 
-	/**
-	 * IllegalDimension constructor comment.
-	 */
-	public IterationCountExceededException() {
-		super();
-	}
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * IllegalDimension constructor comment.
-	 * 
-	 * @param s
-	 *            java.lang.String
-	 */
-	public IterationCountExceededException(String s) {
-		super(s);
-	}
+    /**
+     * IllegalDimension constructor comment.
+     */
+    public IterationCountExceededException() {
+        super();
+    }
+
+    /**
+     * IllegalDimension constructor comment.
+     *
+     * @param s java.lang.String
+     */
+    public IterationCountExceededException(String s) {
+        super(s);
+    }
 }

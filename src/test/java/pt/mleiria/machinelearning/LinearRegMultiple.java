@@ -7,15 +7,19 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import static java.lang.Double.parseDouble;
+import static java.lang.System.out;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
+import static java.util.logging.Level.SEVERE;
 import java.util.logging.Logger;
+import static java.util.logging.Logger.getLogger;
 import pt.mleiria.machinelearning.matrixAlgebra.Matrix;
 import pt.mleiria.machinelearning.matrixAlgebra.Vector;
 import pt.mleiria.machinelearning.preprocess.FeatNormMeanStdev;
 import pt.mleiria.machinelearning.preprocess.FeatureNormalization;
-import pt.mleiria.machinelearning.regression.GradientDescent;
+import pt.mleiria.machinelearning.regression.LinearRegression;
 
 /**
  *
@@ -23,7 +27,7 @@ import pt.mleiria.machinelearning.regression.GradientDescent;
  */
 public class LinearRegMultiple {
 
-    private static final String path = "/home/manuel/Tools/adalineProcesses/mlearning/dataFiles/";
+    private static final String path = "/home/manuel/tools/adalineProcesses/mlearning/dataFiles/";
     private final static String dataFile = path + "housePrice.txt";
     private final static String costHistory = path +"JGDM.txt";
 
@@ -32,26 +36,26 @@ public class LinearRegMultiple {
             double[][] rawData = loadFileToComponents(dataFile, ",");
             Matrix matrix = new Matrix(rawData);
             //We can check the data loaded
-            System.out.println(matrix.toString());
+            out.println(matrix.toString());
             //split the matrix in x (features) and y (target value)
             Matrix[] dMatrix = matrix.split(1);
             //Let's see:
             Matrix x = dMatrix[0];
             Vector y = dMatrix[1].getColumn(0);
-            System.out.println(x.toString());
-            System.out.println(y.toString());
+            out.println(x.toString());
+            out.println(y.toString());
             //Feature normalization
             final FeatureNormalization ftn = new FeatNormMeanStdev();
             final Matrix xNorm = ftn.normalize(x);
             //Check it
-            System.out.println(xNorm.toString());
+            out.println(xNorm.toString());
             //alpha value
             double alpha = 0.01;
             //Num max iter
             int numIter = 400;
             //desired precision
             double precision = 0.00001;
-            GradientDescent gd = new GradientDescent(xNorm, y, alpha);
+            LinearRegression gd = new LinearRegression(xNorm, y, alpha);
             gd.setMaximumIterations(numIter);
             gd.setDesiredPrecision(precision);
             gd.evaluate();
@@ -64,10 +68,10 @@ public class LinearRegMultiple {
                     ((FeatNormMeanStdev)ftn).getStdev()[0]) * gd.getTheta().component(1) +
                     ((x2 - ((FeatNormMeanStdev)ftn).getMean()[1])/
                     ((FeatNormMeanStdev)ftn).getStdev()[1]) * gd.getTheta().component(2);
-            System.out.println("Previsao:" + yPrev);
+            out.println("Previsao:" + yPrev);
 
         } catch (Exception ex) {
-            Logger.getLogger(LinearRegMultiple.class.getName()).log(Level.SEVERE, null, ex);
+            getLogger(LinearRegMultiple.class.getName()).log(SEVERE, null, ex);
         }
     }
 
@@ -94,7 +98,7 @@ public class LinearRegMultiple {
             final int colSize = rowArr.length;
             data[i] = new double[colSize];
             for (int j = 0; j < colSize; j++) {
-                data[i][j] = Double.parseDouble(rowArr[j]);
+                data[i][j] = parseDouble(rowArr[j]);
             }
         }
         return data;

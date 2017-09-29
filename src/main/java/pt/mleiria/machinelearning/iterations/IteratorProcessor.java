@@ -4,16 +4,15 @@
 package pt.mleiria.machinelearning.iterations;
 
 import org.apache.log4j.Logger;
-
-
-
+import static org.apache.log4j.Logger.getLogger;
 
 /**
  *
  * @author manuel
  */
 public abstract class IteratorProcessor {
-    protected static final Logger log = Logger.getLogger("mlearningLog");
+
+    protected static final Logger log = getLogger("mlearningLog");
 
     /**
      * Number of iterations performed.
@@ -66,7 +65,7 @@ public abstract class IteratorProcessor {
      * Clean-up operations
      */
     public void finalizeIterations() {
-        log.info("Iterations:[" + iterations +"]" );
+        log.info("Iterations:[" + iterations + "]");
     }
 
     /**

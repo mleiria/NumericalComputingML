@@ -11,7 +11,4 @@ package pt.mleiria.machinelearning.functions;
  */
 public class SqrtBig {
 
-    
-    
-    
 }

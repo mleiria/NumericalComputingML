@@ -16,25 +16,29 @@ public class FactorialFactory {
     /**
      *
      */
-    public enum FactorialTypes{
-        CACHED, LOOP, RECURSIVE;
+    public enum FactorialTypes {
+        CACHED, LOOP, RECURSIVE, PARALLEL;
     }
+
     /**
      * Defaults to Recursive Factorial
+     *
      * @param ft
-     * @return 
+     * @return
      */
-    public Factorial getFactorialAlgorithm(FactorialTypes ft){
-        if(null == ft){
+    public Factorial getFactorialAlgorithm(FactorialTypes ft) {
+        if (null == ft) {
             return new RecursiveFactorial();
         }
-        switch(ft){
+        switch (ft) {
             case CACHED:
                 return new CachedFactorial();
             case LOOP:
                 return new LoopFactorial();
             case RECURSIVE:
                 return new RecursiveFactorial();
+            case PARALLEL:
+                return new ParallelFactorial();
             default:
                 return new RecursiveFactorial();
         }

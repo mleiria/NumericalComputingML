@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 
 import junit.framework.Assert;
 import junit.framework.TestCase;
+import static org.apache.log4j.Logger.getLogger;
 import pt.mleiria.machinelearning.classification.KNN;
 import pt.mleiria.machinelearning.matrixAlgebra.Matrix;
 import pt.mleiria.machinelearning.matrixAlgebra.Vector;
@@ -20,9 +21,9 @@ public class KnnTest extends TestCase{
 	/**
      * Logger
      */
-    private static final Logger log = Logger.getLogger("mlearningLog");
+    private static final Logger log = getLogger("mlearningLog");
     
-	private final String dataFile = "/home/manuel/Tools/adalineProcesses/mlearning/knn/iris.data";
+	private final String dataFile = "/home/manuel/tools/adalineProcesses/mlearning/knn/iris.data";
 	private KNN knn; 
 	
 	@Override
@@ -39,7 +40,7 @@ public class KnnTest extends TestCase{
 		Vector v2 = new Vector(new double[]{4, 4, 4, 1});
 		double distance = knn.euclideanDistance(v1, v2, 3);
 		
-		Assert.assertEquals(expectedDistance, distance);
+		assertEquals(expectedDistance, distance);
 	}
 	/**
 	 * 
@@ -52,10 +53,10 @@ public class KnnTest extends TestCase{
 		Matrix res = knn.getNeighbors(trainSet, testInstance, 1);
 		
 		log.info("Neighbors:" + res.toString());
-		Assert.assertEquals(4.0, res.component(0, 0));
-		Assert.assertEquals(4.0, res.component(0, 1));
-		Assert.assertEquals(4.0, res.component(0, 1));
-		Assert.assertEquals(1.0, res.component(0, 3));
+		assertEquals(4.0, res.component(0, 0));
+		assertEquals(4.0, res.component(0, 1));
+		assertEquals(4.0, res.component(0, 1));
+		assertEquals(1.0, res.component(0, 3));
 	}
 	/**
 	 * 
@@ -65,7 +66,7 @@ public class KnnTest extends TestCase{
 		Matrix neighbors = new Matrix(components);
 		String response = knn.getResponse(neighbors);
 		log.info("Voted Class:" + response);
-		Assert.assertEquals("Iris-setosa", response);
+		assertEquals("Iris-setosa", response);
 	}
 	
 }

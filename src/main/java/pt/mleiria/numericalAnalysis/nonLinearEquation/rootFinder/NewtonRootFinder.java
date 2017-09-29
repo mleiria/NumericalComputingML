@@ -3,12 +3,24 @@
  */
 package pt.mleiria.numericalAnalysis.nonLinearEquation.rootFinder;
 
+import static java.lang.Math.abs;
+import static java.lang.String.valueOf;
+import static java.lang.String.valueOf;
+import static java.lang.String.valueOf;
 import pt.mleiria.machinelearning.interfaces.OneVarFunctionDerivative;
 import pt.mleiria.numericalAnalysis.exception.InvalidIntervalException;
 import pt.mleiria.numericalAnalysis.exception.IterationCountExceededException;
 import pt.mleiria.numericalAnalysis.utils.DataAccumulator;
+import static pt.mleiria.numericalAnalysis.utils.DataAccumulator.feedAccumulator;
+import static pt.mleiria.numericalAnalysis.utils.DataAccumulator.getData;
 import pt.mleiria.numericalAnalysis.utils.Epsilon;
+import static pt.mleiria.numericalAnalysis.utils.Epsilon.doubleValue;
 import pt.mleiria.numericalAnalysis.utils.Utils;
+import static pt.mleiria.numericalAnalysis.utils.Utils.appendToFile;
+import static pt.mleiria.numericalAnalysis.utils.Utils.clearFile;
+import static pt.mleiria.numericalAnalysis.utils.Utils.formataNumero;
+import static pt.mleiria.numericalAnalysis.utils.Utils.print;
+import static pt.mleiria.numericalAnalysis.utils.Utils.println;
 
 /**
  * @author Manuel
@@ -53,7 +65,7 @@ public final class NewtonRootFinder extends AbstractRootFinder {
     public NewtonRootFinder(OneVarFunctionDerivative f, int maxIters,
             double a, double b, double x_0) throws InvalidIntervalException {
 
-        super(f, maxIters, Epsilon.doubleValue());
+        super(f, maxIters, doubleValue());
         checkInterval(a, b, x_0);
         // Inicializacao
         this.xm = x_0;
@@ -86,24 +98,24 @@ public final class NewtonRootFinder extends AbstractRootFinder {
     public void findRoot() throws IterationCountExceededException {
         // Start Logger
         String[][] data = new String[][]{
-            {String.valueOf(getIterationCount()), "5"},
-            {Utils.formataNumero(xm1, "##0.00000000"), "20"},
+            {valueOf(getIterationCount()), "5"},
+            {formataNumero(xm1, "##0.00000000"), "20"},
             {
-                Utils.formataNumero(f.value(xm1),
+                formataNumero(f.value(xm1),
                 "##0.00000000"), "20"},
             {
-                Utils.formataNumero(1.41421356 - xm1,
+                formataNumero(1.41421356 - xm1,
                 "##0.00000000"), "20"}};
-        DataAccumulator.feedAccumulator(data);
+        feedAccumulator(data);
 
-        Utils.print(String.valueOf(getIterationCount()), 5);
-        Utils.print(Utils.formataNumero(xm1,
+        print(valueOf(getIterationCount()), 5);
+        print(formataNumero(xm1,
                 "##0.00000000"), 20);
-        Utils.print(Utils.formataNumero(f
+        print(formataNumero(f
                 .value(xm1), "##0.00000000"), 20);
-        Utils.print(Utils.formataNumero(
+        print(formataNumero(
                 1.41421356 - xm1, "##0.00000000"), 20);
-        Utils.println();
+        println();
         // End Logger
         checkIterationCount();
         computeNextPosition();
@@ -111,19 +123,19 @@ public final class NewtonRootFinder extends AbstractRootFinder {
         if (hasConverged()) {
             // Start Logger
             data = new String[][]{
-                {String.valueOf(getIterationCount()), "5"},
-                {Utils.formataNumero(xm1, "##0.00000000"),
+                {valueOf(getIterationCount()), "5"},
+                {formataNumero(xm1, "##0.00000000"),
                     "20"},
                 {
-                    Utils.formataNumero(f.value(xm1),
+                    formataNumero(f.value(xm1),
                     "##0.00000000"), "20"},
                 {
-                    Utils.formataNumero(1.41421356 - xm1,
+                    formataNumero(1.41421356 - xm1,
                     "##0.00000000"), "20"}};
-            DataAccumulator.feedAccumulator(data);
-            Utils.clearFile("Newton.txt");
-            Utils.appendToFile("Newton.txt", true,
-                    DataAccumulator.getData());
+            feedAccumulator(data);
+            clearFile("Newton.txt");
+            appendToFile("Newton.txt", true,
+                    getData());
             DataAccumulator.reset();
             // End Logger
             reset();
@@ -140,7 +152,7 @@ public final class NewtonRootFinder extends AbstractRootFinder {
      */
     @Override
     public boolean hasConverged() {
-        if ((Math.abs(xm1 - xm) <= comparisonTollerance)
+        if ((abs(xm1 - xm) <= comparisonTollerance)
                 || (f.value(xm1) <= comparisonTollerance && f.value(xm1) >= -comparisonTollerance)) {
             return true;
         } else {

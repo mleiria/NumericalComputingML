@@ -1,176 +1,54 @@
-/**
- * 
- */
 package pt.mleiria.machinelearning.regression;
 
+import static java.lang.Math.abs;
+import pt.mleiria.machinelearning.matrixAlgebra.Matrix;
+import pt.mleiria.machinelearning.matrixAlgebra.Vector;
+
 /**
- * @author manuel
  *
+ * @author manuel
  */
-public class LinearRegression {
+public class LinearRegression extends GradientDescent {
 
-	/**
-	 * Number of accumulated points
-	 */
-	private int sum1;
-	/**
-	 * Sum of X
-	 */
-	private double sumX;
-	/**
-	 * Sum of Y
-	 */
-	private double sumY;
-	/**
-	 * Sum of XX
-	 */
-	private double sumXX;
-	/**
-	 * Sum of XY
-	 */
-	private double sumXY;
-	/**
-	 * Sum of YY
-	 */
-	private double sumYY;
-	/**
-	 * Slope
-	 */
-	private double slope;
-	/**
-	 * Intercept
-	 */
-	private double intercept;
-	/**
-	 * Correlation coefficient
-	 */
-	private double correlationCoefficient;
+    /**
+     *
+     * @param featuresX
+     * @param outputY
+     * @param alpha
+     */
+    public LinearRegression(final Matrix featuresX, final Vector outputY, final double alpha) {
+        super(featuresX, outputY, alpha);
+    }
 
-	/**
-	 * Cnstructor method.
-	 */
-	public LinearRegression() {
-		reset();
-	}
+    @Override
+    public void computeCost() {
+        double coeff = 1.0 / (2.0 * getDataSize());
+        final Vector a = getFeaturesX().product(getTheta());
+        final Vector b = a.subtract(getOutputY());
+        final double d = b.product(b);
+        final double result = d * coeff;
+        getCostHistory()[iterations] = result;
+    }
 
-	/**
-	 * @param x
-	 *            double
-	 * @param y
-	 *            double
-	 */
-	public void add(double x, double y) {
-		add(x, y, 1);
-	}
+    /**
+     * theta = theta - (alpha / m) * X' * (X * theta - y);
+     *
+     * b = X * theta c = b - y d = X' * c e = (alpha/m) * d
+     *
+     * @return
+     */
+    @Override
+    public double evaluateIteration() {
+        double coeff = (getAlpha() / (double) getDataSize());
+        Vector b = getFeaturesX().product(getTheta());
+        Vector c = b.subtract(getOutputY());
+        Matrix d = getFeaturesX().transpose();
+        Vector e = d.product(c);
+        Vector f = e.product(coeff);
+        setTheta(getTheta().subtract(f));
+        computeCost();
+        double precision = getCostHistory()[iterations] - getCostHistory()[iterations - 1];
+        return abs(precision);
+    }
 
-	/**
-	 * @param x
-	 *            double
-	 * @param y
-	 *            double
-	 * @param w
-	 *            double
-	 */
-	public void add(double x, double y, double w) {
-		double wx = w * x;
-		double wy = w * y;
-		sum1 += w;
-		sumX += wx;
-		sumY += wy;
-		sumXX += wx * x;
-		sumYY += wy * y;
-		sumXY += wx * y;
-		resetResults();
-	}
-
-	/**
-	 * @return double[]
-	 */
-	private double[] coefficients() {
-		double[] answer = new double[2];
-		answer[0] = getIntercept();
-		answer[1] = getSlope();
-		return answer;
-	}
-
-	private void computeResults() {
-		double xNorm = sumXX * sum1 - sumX * sumX;
-		double xyNorm = sumXY * sum1 - sumX * sumY;
-		slope = xyNorm / xNorm;
-		intercept = (sumXX * sumY - sumXY * sumX) / xNorm;
-		correlationCoefficient = xyNorm / Math.sqrt(xNorm * (sumYY * sum1 - sumY * sumY));
-	}
-
-	/**
-	 * @return double
-	 */
-	public double getCorrelationCoefficient() {
-		if (Double.isNaN(correlationCoefficient)) {
-			computeResults();
-		}
-		return correlationCoefficient;
-	}
-
-	/**
-	 * @return double
-	 */
-	public double getIntercept() {
-		if (Double.isNaN(intercept)) {
-			computeResults();
-		}
-		return intercept;
-	}
-
-	/**
-	 * @return double
-	 */
-	public double getSlope() {
-		if (Double.isNaN(slope)) {
-			computeResults();
-		}
-		return slope;
-	}
-
-	/**
-	 * @param x
-	 *            double
-	 * @param y
-	 *            double
-	 */
-	public void remove(double x, double y) {
-		sum1 -= 1;
-		sumX -= x;
-		sumY -= y;
-		sumXX -= x * x;
-		sumYY -= y * y;
-		sumXY -= x * y;
-		resetResults();
-	}
-
-	public void reset() {
-		sum1 = 0;
-		sumX = 0;
-		sumY = 0;
-		sumXX = 0;
-		sumYY = 0;
-		sumXY = 0;
-		resetResults();
-	}
-
-	private void resetResults() {
-		slope = Double.NaN;
-		intercept = Double.NaN;
-		correlationCoefficient = Double.NaN;
-	}
-
-	/**
-	 * @return double
-	 * @param x
-	 *            double
-	 */
-	public double value(double x) {
-		return x * getSlope() + getIntercept();
-	}
-	
-	
 }

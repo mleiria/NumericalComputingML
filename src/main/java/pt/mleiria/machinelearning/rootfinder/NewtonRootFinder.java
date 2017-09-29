@@ -5,8 +5,8 @@
  */
 package pt.mleiria.machinelearning.rootfinder;
 
-
-
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
 import pt.mleiria.machinelearning.interfaces.OneVarFunctionDerivative;
 import pt.mleiria.numericalAnalysis.exception.InvalidIntervalException;
 
@@ -20,13 +20,13 @@ public class NewtonRootFinder extends RootFinder {
     /**
      * Interval [a, b] where to find root
      */
-    private double a, b;
+    private final double a, b;
     /**
      *
      */
-    private double startingPoint;
+    private final double startingPoint;
 
-    private final OneVarFunctionDerivative df;
+    private final OneVarFunctionDerivative<Double> df;
 
     /**
      *
@@ -36,7 +36,7 @@ public class NewtonRootFinder extends RootFinder {
      * @param b
      * @param sp Starting point
      */
-    public NewtonRootFinder(final OneVarFunctionDerivative df, final double a, final double b, final double sp){
+    public NewtonRootFinder(final OneVarFunctionDerivative df, final double a, final double b, final double sp) {
         super(df);
         this.a = a;
         this.b = b;
@@ -53,7 +53,7 @@ public class NewtonRootFinder extends RootFinder {
             log.error(ex);
             throw new IllegalArgumentException("Invalid Interval");
         }
-        this.xm = startingPoint ;
+        this.xm = startingPoint;
     }
 
     /**
@@ -74,7 +74,7 @@ public class NewtonRootFinder extends RootFinder {
     @Override
     public double evaluateIteration() {
         xm1 = xm - f.value(xm) / df.derivative(xm);
-        return Math.abs(xm1 - xm);
+        return abs(xm1 - xm);
     }
 
     /**
@@ -83,7 +83,7 @@ public class NewtonRootFinder extends RootFinder {
      */
     @Override
     public boolean hasConverged() {
-        if ((Math.abs(xm1 - xm) <= getDesiredPrecision())
+        if ((abs(xm1 - xm) <= getDesiredPrecision())
                 || (f.value(xm1) <= getDesiredPrecision() && f.value(xm1) >= -getDesiredPrecision())) {
             return true;
         } else {

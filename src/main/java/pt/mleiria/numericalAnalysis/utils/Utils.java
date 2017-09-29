@@ -7,12 +7,27 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import static java.lang.Integer.parseInt;
+import static java.lang.String.valueOf;
+import static java.lang.String.valueOf;
+import static java.lang.String.valueOf;
+import static java.lang.String.valueOf;
+import static java.lang.String.valueOf;
+import static java.lang.String.valueOf;
+import static java.lang.System.out;
 import java.math.MathContext;
 import java.math.RoundingMode;
+import static java.math.RoundingMode.HALF_EVEN;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import static java.util.Calendar.DAY_OF_MONTH;
+import static java.util.Calendar.HOUR;
+import static java.util.Calendar.MINUTE;
+import static java.util.Calendar.MONTH;
+import static java.util.Calendar.SECOND;
+import static java.util.Calendar.YEAR;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 
@@ -22,7 +37,6 @@ import java.util.Iterator;
 public class Utils {
 
     // Comprimento da linha
-
     private static int lineSize;
 
     /**
@@ -30,7 +44,7 @@ public class Utils {
      * @return MathContext
      */
     public static MathContext setPrecision(int precision) {
-        return new MathContext(precision, RoundingMode.HALF_EVEN);
+        return new MathContext(precision, HALF_EVEN);
     }
 
     /**
@@ -51,16 +65,16 @@ public class Utils {
      */
     public static String getCurrentDate() {
         Calendar cal = new GregorianCalendar();
-		// Get the components of the date
+        // Get the components of the date
         // int era = cal.get(Calendar.ERA); // 0=BC, 1=AD
-        String year = String.valueOf(cal.get(Calendar.YEAR)); // 2002
-        String month = String.valueOf(cal.get(Calendar.MONTH) + 1); // 0=Jan,
+        String year = valueOf(cal.get(YEAR)); // 2002
+        String month = valueOf(cal.get(MONTH) + 1); // 0=Jan,
         // 1=Feb,
         // ...
-        String day = String.valueOf(cal.get(Calendar.DAY_OF_MONTH)); // 1...
-        String hour = String.valueOf(cal.get(Calendar.HOUR));
-        String min = String.valueOf(cal.get(Calendar.MINUTE));
-        String sec = String.valueOf(cal.get(Calendar.SECOND));
+        String day = valueOf(cal.get(DAY_OF_MONTH)); // 1...
+        String hour = valueOf(cal.get(HOUR));
+        String min = valueOf(cal.get(MINUTE));
+        String sec = valueOf(cal.get(SECOND));
 
         if (month.length() == 1) {
             month = "0" + month;
@@ -97,26 +111,24 @@ public class Utils {
             Iterator<String[][]> iter = data.iterator();
             while (iter.hasNext()) {
                 String[][] element = iter.next();
-                for (int i = 0; i < element.length; i++) {
-                    int mask = Integer.parseInt(element[i][1]) - element[i][0].length();
+                for (String[] element1 : element) {
+                    int mask = parseInt(element1[1]) - element1[0].length();
                     while (--mask >= 0) {
                         out.write(" ");
                     }
-                    out.write(element[i][0]);
+                    out.write(element1[0]);
                 }
                 out.write("\n");
             }
-        } catch (IOException e) {
+        } catch (IOException | IllegalArgumentException e) {
             e.printStackTrace();
-        } catch (IllegalArgumentException ex) {
-            ex.printStackTrace();
         } finally {
             try {
                 out.close();
             } catch (IOException ex) {
             }
         }
-        
+
     }
 
     public static boolean clearFile(String fileName) {
@@ -134,9 +146,9 @@ public class Utils {
     public static void print(String text, int width) {
         int mask = width - text.length();
         while (--mask >= 0) {
-            System.out.print(" ");
+            out.print(" ");
         }
-        System.out.print(text);
+        out.print(text);
 
         lineSize += width;
     }
@@ -174,7 +186,7 @@ public class Utils {
      * Print a line.
      */
     public static void println() {
-        System.out.println();
+        out.println();
         lineSize = 0;
     }
 
@@ -182,11 +194,11 @@ public class Utils {
      * Print an underline.
      */
     public static void underline() {
-        System.out.println();
+        out.println();
         for (int i = 0; i < lineSize; ++i) {
-            System.out.print("-");
+            out.print("-");
         }
-        System.out.println();
+        out.println();
         lineSize = 0;
     }
 }

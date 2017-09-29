@@ -32,7 +32,7 @@ public class StatisticalMomentsTest extends TestCase{
         for(int i= 0; i < x.length; i++){
             sm.accumulate(x[i]);
         }
-        Assert.assertEquals(2.0, sm.average());
+        assertEquals(2.0, sm.average());
     }
     
 }

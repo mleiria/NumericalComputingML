@@ -5,6 +5,8 @@
  */
 package pt.mleiria.machinelearning.rootfinder;
 
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
 import pt.mleiria.machinelearning.interfaces.OneVarFunction;
 import pt.mleiria.numericalAnalysis.exception.InvalidIntervalException;
 
@@ -15,9 +17,8 @@ import pt.mleiria.numericalAnalysis.exception.InvalidIntervalException;
 public class BissectionRootFinder extends RootFinder {
 
     /**
-     * a: x-coordinate of the left of the interval 
-     * b: x-coordinate of the
-     * right of the interval
+     * a: x-coordinate of the left of the interval b: x-coordinate of the right
+     * of the interval
      */
     private final double a, b;
     /**
@@ -57,7 +58,7 @@ public class BissectionRootFinder extends RootFinder {
      * @param maxIter
      * @param desiredPrecison
      */
-    public BissectionRootFinder(final OneVarFunction f, final double a, final double b, 
+    public BissectionRootFinder(final OneVarFunction<Double> f, final double a, final double b,
             final int maxIter, final double desiredPrecison) {
         super(f);
         setMaximumIterations(maxIter);
@@ -70,13 +71,13 @@ public class BissectionRootFinder extends RootFinder {
     public void initializeIterations() {
         final double yMin = f.value(a);
         final double yMax = f.value(b);
-        xMid = Math.abs(b - a) / 2.0;
-        if(f.value(a) < 0){
+        xMid = abs(b - a) / 2.0;
+        if (f.value(a) < 0) {
             xNeg = a;
             xPos = b;
             fNeg = yMin;
             fPos = yMax;
-        }else{
+        } else {
             xNeg = b;
             xPos = a;
             fNeg = yMax;
@@ -84,7 +85,6 @@ public class BissectionRootFinder extends RootFinder {
         }
     }
 
-    
     /**
      *
      * @return
@@ -112,17 +112,17 @@ public class BissectionRootFinder extends RootFinder {
      */
     @Override
     public double evaluateIteration() {
-        if(f.value(xMid) < 0){
+        if (f.value(xMid) < 0) {
             xNeg = xMid;
             fNeg = fMid;
-        }else{
+        } else {
             xPos = xMid;
             fPos = fMid;
         }
         prevXMid = xMid;
-        xMid = (xNeg + xPos)/2;
-        
-        return Math.abs(xMid - prevXMid);
+        xMid = (xNeg + xPos) / 2;
+
+        return abs(xMid - prevXMid);
     }
 
 }

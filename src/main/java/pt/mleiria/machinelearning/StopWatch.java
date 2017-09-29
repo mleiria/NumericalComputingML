@@ -5,6 +5,8 @@
  */
 package pt.mleiria.machinelearning;
 
+import static java.lang.System.currentTimeMillis;
+
 /**
  *
  * @author manuel
@@ -12,17 +14,14 @@ package pt.mleiria.machinelearning;
 public class StopWatch {
 
     private long start;
-    
+
     public StopWatch() {
-        start = System.currentTimeMillis();
+        start = currentTimeMillis();
     }
-    
-    public double elapsedTime(){
-        double elapsed = (System.currentTimeMillis() - start) / 1000.0;
+
+    public double elapsedTime() {
+        double elapsed = (currentTimeMillis() - start) / 1000.0;
         return elapsed;
     }
-    
-    
 
-    
 }

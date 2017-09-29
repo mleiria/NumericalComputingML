@@ -7,6 +7,8 @@ package pt.mleiria.machinelearning.functions.factorial;
 
 import pt.mleiria.machinelearning.interfaces.Factorial;
 import java.math.BigInteger;
+import static java.math.BigInteger.ONE;
+import static java.math.BigInteger.valueOf;
 
 /**
  *
@@ -16,11 +18,10 @@ public class LoopFactorial implements Factorial {
 
     @Override
     public BigInteger doFactorial(int n) {
-        BigInteger val = BigInteger.ONE;
+        BigInteger val = ONE;
         for (int i = 1; i <= n; i++) {
-            val = val.multiply(BigInteger.valueOf(i));
+            val = val.multiply(valueOf(i));
         }
         return val;
     }
-
 }

@@ -5,8 +5,12 @@
  */
 package pt.mleiria.machinelearning;
 
-import junit.framework.TestCase;
+import java.util.DoubleSummaryStatistics;
+
 import org.apache.log4j.Logger;
+
+import junit.framework.TestCase;
+import static org.apache.log4j.Logger.getLogger;
 import pt.mleiria.machinelearning.matrixAlgebra.Matrix;
 import pt.mleiria.machinelearning.matrixAlgebra.Vector;
 
@@ -17,7 +21,7 @@ import pt.mleiria.machinelearning.matrixAlgebra.Vector;
 public class VectorTest extends TestCase {
     
     
-    private static final Logger log = Logger.getLogger("mlearningLog");
+    private static final Logger log = getLogger("mlearningLog");
     Matrix a;
     
      @Override
@@ -53,6 +57,14 @@ public class VectorTest extends TestCase {
         assertEquals(2, c.dimension());
     }
     
-    
+    public void testGetSummaryStatistics(){
+	double[] v = new double[]{1, 2, 3, 4, 5, 6, 7, 8, 9};
+        Vector v1 = new Vector(v);
+        
+        DoubleSummaryStatistics stats = v1.getSummaryStatistics();
+        assertEquals(9, v1.dimension());
+        assertEquals(45.0, stats.getSum());
+        
+    }
     
 }
