@@ -6,7 +6,6 @@
 package pt.mleiria.machinelearning.statistics;
 
 import static java.lang.System.arraycopy;
-import java.util.Arrays;
 import static java.util.Arrays.sort;
 import pt.mleiria.machinelearning.matrixAlgebra.Vector;
 

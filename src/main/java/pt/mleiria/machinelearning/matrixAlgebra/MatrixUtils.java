@@ -6,6 +6,7 @@
 package pt.mleiria.machinelearning.matrixAlgebra;
 
 import static java.lang.Math.random;
+import static java.lang.Math.sqrt;
 
 /**
  *
@@ -73,7 +74,11 @@ public class MatrixUtils {
         }
         return new Matrix(components);
     }
-
+    /**
+     * 
+     * @param matrix
+     * @return 
+     */
     public static Vector toVector(final Matrix matrix) {
         if (matrix.columns() != 1) {
             throw new IllegalArgumentException("Only Matrix with 1 column can be converted");
@@ -83,6 +88,33 @@ public class MatrixUtils {
             d[i] = matrix.component(i, 0);
         }
         return new Vector(d);
+    }
+    /**
+     * Trace Operator
+     * @param matrix
+     * @return 
+     */
+    public static double trace(final Matrix matrix){
+        final int rows = matrix.rows();
+        final int cols = matrix.columns();
+        double sum = 0;
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                if (i == j) {
+                    sum += matrix.component(j, j);
+                } 
+            }
+        }
+        return sum;
+    }
+    /**
+     * 
+     * @param matrix
+     * @return 
+     */
+    public static double frobeniusNorm(final Matrix matrix){
+        final Matrix transMatrix = matrix.transpose();
+        return sqrt(trace(matrix.multiply(transMatrix)));
     }
 
 }

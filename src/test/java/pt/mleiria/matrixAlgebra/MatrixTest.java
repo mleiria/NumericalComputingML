@@ -5,13 +5,12 @@
  */
 package pt.mleiria.matrixAlgebra;
 
-import junit.framework.Assert;
 import junit.framework.TestCase;
 import org.apache.log4j.Logger;
 import static org.apache.log4j.Logger.getLogger;
+import pt.mleiria.machinelearning.interfaces.OneVarFunction;
 
 import pt.mleiria.machinelearning.matrixAlgebra.Matrix;
-import pt.mleiria.machinelearning.matrixAlgebra.MatrixUtils;
 import static pt.mleiria.machinelearning.matrixAlgebra.MatrixUtils.identity;
 import pt.mleiria.machinelearning.matrixAlgebra.Vector;
 import pt.mleiria.machinelearning.preprocess.FeatNormMeanStdev;
@@ -286,9 +285,15 @@ public class MatrixTest extends TestCase {
         Matrix augmentedMatrix = ma.polynomialOrder(2);
         assertEquals(3, augmentedMatrix.columns());
         assertEquals(4.0, augmentedMatrix.component(1, 2));
-        
-        
-        
+    }
+    
+    public void testLambdaFunction(){
+        OneVarFunction<Double> testFunc = elem -> elem * 2;
+        assertEquals(4.0, getLambdaValue(2.0, elem -> elem * 2));
+    }
+    
+    private Double getLambdaValue(Double d, OneVarFunction<Double> f){
+        return f.value(d);
     }
 
 }

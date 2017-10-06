@@ -3,18 +3,15 @@
  */
 package pt.mleiria.matrixAlgebra;
 
-import java.math.RoundingMode;
 import static java.math.RoundingMode.CEILING;
 import java.text.DecimalFormat;
 
 import org.apache.log4j.Logger;
 
-import junit.framework.Assert;
 import junit.framework.TestCase;
 import static org.apache.log4j.Logger.getLogger;
 import pt.mleiria.machinelearning.matrixAlgebra.LinearEquations;
 import pt.mleiria.machinelearning.matrixAlgebra.Vector;
-import pt.mleiria.numericalAnalysis.utils.ViewUtils;
 
 /**
  * @author manuel

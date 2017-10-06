@@ -51,7 +51,9 @@ public class ConvertToNumericDummy {
 
     /**
      *
+     * @return 
      */
+    @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder();
         for (int i = 0; i < lst.size(); i++) {
