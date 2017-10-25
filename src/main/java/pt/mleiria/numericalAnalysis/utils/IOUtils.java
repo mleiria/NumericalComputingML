@@ -5,7 +5,6 @@ package pt.mleiria.numericalAnalysis.utils;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -34,11 +33,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.function.Function;
-import java.util.logging.Level;
 import static java.util.logging.Level.SEVERE;
 import java.util.logging.Logger;
 import static java.util.logging.Logger.getLogger;
-import java.util.stream.Collectors;
 import static java.util.stream.Collectors.toList;
 
 import pt.mleiria.machinelearning.matrixAlgebra.Matrix;
