@@ -36,7 +36,7 @@ public class KNN {
 
     protected static final Logger log = getLogger("mlearningLog");
     /**
-     *
+     * Caminho para o ficheiro onde esta o conjunto de dados
      */
     private final String dataFile;
     /**
@@ -44,15 +44,15 @@ public class KNN {
      */
     private double split;
     /**
-     *
+     * Matriz com o conjunto de dados para treino
      */
     private Matrix trainingSet;
     /**
-     *
+     * Matriz com o conjunto de dados para testes
      */
     private Matrix testSet;
     /**
-     *
+     * Matriz com o conjunto total de dados
      */
     private Matrix dataSet;
     /**
@@ -83,7 +83,7 @@ public class KNN {
      *
      */
     public void loadDataSet() {
-        String line = "";
+        String line;
         final String cvsSplitBy = ",";
         final List<String[]> tmpArray = new ArrayList<>();
 
@@ -171,9 +171,13 @@ public class KNN {
     private <K, V extends Comparable<? super V>> Map<K, V> sortByValue(final Map<K, V> map, final boolean isReverse) {
         Stream<Entry<K, V>> s;
         if (isReverse) {
-            s = map.entrySet().stream().sorted(comparingByValue(reverseOrder()));
+            s = map.entrySet()
+                    .stream().
+                    sorted(comparingByValue(reverseOrder()));
         } else {
-            s = map.entrySet().stream().sorted(comparingByValue());
+            s = map.entrySet()
+                    .stream()
+                    .sorted(comparingByValue());
         }
 
         return s.collect(toMap(
@@ -189,13 +193,16 @@ public class KNN {
      * @param neighbors
      * @return
      */
-    public String getResponse(Matrix neighbors) {
+    public String getResponse(final Matrix neighbors) {
         final Map<String, Integer> classVotes = new HashMap<>();
         for (int i = 0; i < neighbors.rows(); i++) {
             final String label = ctd.getRealValue(neighbors.component(i, neighbors.columns() - 1));
             classVotes.put(label, classVotes.getOrDefault(label, 0) + 1);
         }
-        return sortByValue(classVotes, true).entrySet().iterator().next().getKey();
+        return sortByValue(classVotes, true).entrySet()
+                                            .iterator()
+                                            .next()
+                                            .getKey();
     }
 
     /**

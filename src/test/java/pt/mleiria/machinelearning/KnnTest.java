@@ -5,9 +5,7 @@ package pt.mleiria.machinelearning;
 
 import org.apache.log4j.Logger;
 
-import junit.framework.Assert;
 import junit.framework.TestCase;
-import static org.apache.log4j.Logger.getLogger;
 import pt.mleiria.machinelearning.classification.KNN;
 import pt.mleiria.machinelearning.matrixAlgebra.Matrix;
 import pt.mleiria.machinelearning.matrixAlgebra.Vector;

@@ -13,11 +13,12 @@ import java.util.List;
 public class ConvertToNumericDummy {
 
     private final List<String> lst;
-
+    /**
+     * 
+     */
     public ConvertToNumericDummy() {
         lst = new ArrayList<>();
     }
-
     /**
      *
      * @param realValue
@@ -31,7 +32,6 @@ public class ConvertToNumericDummy {
             return lst.size() - 1;
         }
     }
-
     /**
      *
      * @param dummyValue
@@ -40,7 +40,6 @@ public class ConvertToNumericDummy {
     public String getRealValue(final double dummyValue) {
         return lst.get((int) dummyValue);
     }
-
     /**
      *
      * @return
@@ -48,10 +47,9 @@ public class ConvertToNumericDummy {
     public int getSize() {
         return lst.size();
     }
-
     /**
      *
-     * @return 
+     * @return
      */
     @Override
     public String toString() {
@@ -61,5 +59,4 @@ public class ConvertToNumericDummy {
         }
         return sb.toString();
     }
-
 }
