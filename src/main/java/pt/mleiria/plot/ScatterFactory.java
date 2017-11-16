@@ -3,12 +3,10 @@ package pt.mleiria.plot;
 import java.text.DecimalFormat;
 import java.util.List;
 
-import org.jfree.chart.ChartFactory;
 import static org.jfree.chart.ChartFactory.createXYLineChart;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
-import org.jfree.chart.plot.PlotOrientation;
 import static org.jfree.chart.plot.PlotOrientation.VERTICAL;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;

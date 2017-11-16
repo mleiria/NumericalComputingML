@@ -10,6 +10,7 @@ import pt.mleiria.machinelearning.classification.KNN;
 import pt.mleiria.machinelearning.matrixAlgebra.Matrix;
 import pt.mleiria.machinelearning.matrixAlgebra.Vector;
 import static org.apache.log4j.Logger.getLogger;
+import pt.mleiria.machinelearning.statistics.EuclideanDistance;
 
 /**
  * @author manuel
@@ -35,10 +36,10 @@ public class KnnTest extends TestCase {
      *
      */
     public void testEuclideanDistance() {
-        double expectedDistance = 3.4641016151377544;
+        double expectedDistance = 3.605551275463989;
         Vector v1 = new Vector(new double[]{2, 2, 2, 0});
         Vector v2 = new Vector(new double[]{4, 4, 4, 1});
-        double distance = knn.euclideanDistance(v1, v2, 3);
+        double distance = new EuclideanDistance().getRelation(v1, v2, v1.dimension());
 
         assertEquals(expectedDistance, distance);
     }
@@ -51,7 +52,7 @@ public class KnnTest extends TestCase {
         double[] testInstanceComp = new double[]{5, 5, 5};
         Matrix trainSet = new Matrix(trainSetComp);
         Vector testInstance = new Vector(testInstanceComp);
-        Matrix res = knn.getNeighbors(trainSet, testInstance, 1);
+        Matrix res = knn.getNeighbors(trainSet, testInstance, 1, new EuclideanDistance());
 
         LOG.info("Neighbors:" + res.toString());
         assertEquals(4.0, res.component(0, 0));

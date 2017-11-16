@@ -6,13 +6,8 @@ package pt.mleiria.numericalAnalysis.utils;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import static java.lang.String.valueOf;
-import static java.lang.String.valueOf;
-import java.nio.file.Files;
 import static java.nio.file.Files.newBufferedWriter;
-import static java.nio.file.Files.newBufferedWriter;
-import java.nio.file.Paths;
 import static java.nio.file.Paths.get;
-import java.util.ArrayList;
 import java.util.List;
 
 import pt.mleiria.machinelearning.matrixAlgebra.Matrix;

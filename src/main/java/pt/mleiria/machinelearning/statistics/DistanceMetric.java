@@ -2,15 +2,18 @@ package pt.mleiria.machinelearning.statistics;
 /**
  *
  * @author manuel
- * @param <T>
+ * @param <X>
+ * @param <Y>
  */
 @FunctionalInterface
-public interface DistanceMetric<T> {
+public interface DistanceMetric<X, Y> {
 
     /**
      *
-     * @param t
+     * @param x
+     * @param y
+     * @param size
      * @return
      */
-    double getRelation(T t);
+    double getRelation(X x, Y y, int size);
 }

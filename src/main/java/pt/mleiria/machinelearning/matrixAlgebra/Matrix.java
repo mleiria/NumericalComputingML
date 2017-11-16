@@ -568,26 +568,18 @@ public class Matrix {
             final Random rnd = new Random();
             for (int i = rows - 1; i > 0; i--) {
                 final int index = rnd.nextInt(i + 1);
-                double[] a = components[index];
+                final double[] a = components[index];
                 components[index] = components[i];
                 components[i] = a;
             }
         }
-
         for (int i = 0; i < rows; i++) {
-
             if (i < dim) {
-                for (int j = 0; j < cols; j++) {
-                    train[i][j] = components[i][j];
-                }
+                System.arraycopy(components[i], 0, train[i], 0, cols);
             } else {
-                for (int j = 0; j < cols; j++) {
-                    test[i - dim][j] = components[i][j];
-                }
+                System.arraycopy(components[i], 0, test[i - dim], 0, cols);
             }
-
         }
-
         return new Matrix[]{new Matrix(train), new Matrix(test)};
     }
 

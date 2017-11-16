@@ -2,30 +2,29 @@ package pt.mleiria.machinelearning.statistics;
 
 import static java.lang.Math.pow;
 import static java.lang.Math.sqrt;
-import java.util.List;
+import pt.mleiria.machinelearning.matrixAlgebra.Vector;
 
 /**
  *
  * @author manuel
  */
-public class PearsonCorrelation implements DistanceMetric<List<Double[]>> {
+public class PearsonCorrelation implements DistanceMetric<Vector, Vector> {
 
     @Override
-    public double getRelation(final List<Double[]> data) {
+    public double getRelation(final Vector a, final Vector b, final int len) {
         double x = 0;
         double y = 0;
         double xx = 0;
         double yy = 0;
         double xy = 0;
-        final int n = data.size();
-
-        for (final Double[] d : data) {
-            x += d[0];
-            y += d[1];
-            xx += d[0] * d[0];
-            yy += d[1] * d[1];
-            xy += d[0] * d[1];
+        for (int i = 0; i < len; i++) {
+            x += a.component(i);
+            y += b.component(i);
+            xx += x * x;
+            yy += y * y;
+            xy += x * y;
         }
-        return (n * xy - x * y) / (sqrt((n * xx - pow(x, 2)) * (n * yy - pow(y, 2))));
+
+        return (len * xy - x * y) / (sqrt((len * xx - pow(x, 2)) * (len * yy - pow(y, 2))));
     }
 }

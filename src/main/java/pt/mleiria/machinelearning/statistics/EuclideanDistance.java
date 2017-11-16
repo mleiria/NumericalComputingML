@@ -1,20 +1,21 @@
 package pt.mleiria.machinelearning.statistics;
 
-import static java.lang.Math.pow;
-import static java.lang.Math.sqrt;
-import java.util.List;
+import pt.mleiria.machinelearning.matrixAlgebra.Vector;
 /**
  *
  * @author manuel
  */
-public class EuclideanDistance implements DistanceMetric<List<Double[]>> {
+public class EuclideanDistance implements DistanceMetric<Vector, Vector>{
 
     @Override
-    public double getRelation(final List<Double[]> data) {
-        double res = 0;
-        res = data.stream()
-                  .map(d -> pow(d[0] - d[1], 2))
-                  .reduce(res, (accumulator, _item) -> accumulator + _item);
-        return 1.0 / (1.0 + sqrt(res));
+    public double getRelation(final Vector x, final Vector y, final int len) {
+        double res = 0.0;
+        for(int i = 0; i < len; i++){
+            res += Math.pow(x.component(i) - y.component(i), 2);
+        }
+        return Math.sqrt(res);
     }
+
+
+
 }

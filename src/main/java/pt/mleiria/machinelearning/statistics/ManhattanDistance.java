@@ -6,20 +6,20 @@
 package pt.mleiria.machinelearning.statistics;
 
 import static java.lang.Math.abs;
-import java.util.List;
+import pt.mleiria.machinelearning.matrixAlgebra.Vector;
 
 /**
  *
  * @author manuel
  */
-public class ManhattanDistance implements DistanceMetric<List<Double[]>> {
+public class ManhattanDistance implements DistanceMetric<Vector, Vector> {
 
     @Override
-    public double getRelation(List<Double[]> data) {
+    public double getRelation(final Vector x, final Vector y, final int len) {
         double res = 0;
-        res = data.stream()
-                .map(d -> abs(d[0] - d[1]))
-                .reduce(res, (accumulator, _item) -> accumulator + _item);
+        for (int i = 0; i < len; i++) {
+            res += abs(x.component(i) - y.component(i));
+        }
         return res;
     }
 

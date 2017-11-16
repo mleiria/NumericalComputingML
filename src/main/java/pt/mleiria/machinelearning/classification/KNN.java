@@ -27,6 +27,9 @@ import static org.apache.log4j.Logger.getLogger;
 import pt.mleiria.machinelearning.matrixAlgebra.Matrix;
 import pt.mleiria.machinelearning.matrixAlgebra.Vector;
 import pt.mleiria.machinelearning.preprocess.ConvertToNumericDummy;
+import pt.mleiria.machinelearning.statistics.DistanceMetric;
+import pt.mleiria.machinelearning.statistics.EuclideanDistance;
+import pt.mleiria.machinelearning.statistics.ManhattanDistance;
 
 /**
  * @author manuel
@@ -102,6 +105,10 @@ public class KNN {
             for (int j = 0; j < row.length - 1; j++) {
                 components[i][j] = parseDouble(row[j]);
             }
+            /*
+            A última coluna não é um numérico. Convertemos para um numérico dummy
+            e continuamos a carregar os dados
+            */
             components[i][row.length - 1] = ctd.put(row[row.length - 1]);
         }
         dataSet = new Matrix(components);
@@ -112,7 +119,8 @@ public class KNN {
     }
 
     /**
-     *
+     * Divide o conjunto de dados em duas matrizes
+     * de acordo com o valor do split
      * @param dataSet
      */
     private void splitDataSet(Matrix dataSet) {
@@ -125,31 +133,17 @@ public class KNN {
 
     /**
      *
-     * @param instance1
-     * @param instance2
-     * @param length
-     * @return
-     */
-    public double euclideanDistance(final Vector instance1, final Vector instance2, final int length) {
-        double distance = 0;
-        for (int i = 0; i < length; i++) {
-            distance += pow((instance1.component(i) - instance2.component(i)), 2);
-        }
-        return sqrt(distance);
-    }
-
-    /**
-     *
      * @param dataSet
      * @param testInstance
      * @param k
+     * @param distance
      * @return
      */
-    public Matrix getNeighbors(final Matrix dataSet, final Vector testInstance, int k) {
+    public Matrix getNeighbors(final Matrix dataSet, final Vector testInstance, final int k, final DistanceMetric distance) {
         final Map<Vector, Double> neighbors = new HashMap<>(dataSet.rows());
         final int length = testInstance.dimension() - 1;
         for (int i = 0; i < dataSet.rows(); i++) {
-            final double dist = euclideanDistance(testInstance, dataSet.getRow(i), length);
+            final double dist = distance.getRelation(testInstance, dataSet.getRow(i), length);
             neighbors.put(dataSet.getRow(i), dist);
         }
         final Map<Vector, Double> neighborsSorted = sortByValue(neighbors, false);
@@ -200,9 +194,9 @@ public class KNN {
             classVotes.put(label, classVotes.getOrDefault(label, 0) + 1);
         }
         return sortByValue(classVotes, true).entrySet()
-                                            .iterator()
-                                            .next()
-                                            .getKey();
+                .iterator()
+                .next()
+                .getKey();
     }
 
     /**
@@ -222,15 +216,17 @@ public class KNN {
     }
 
     public static void main(String[] args) {
-        boolean isSplit = false;
+        //DistanceMetric dm = new ManhattanDistance();
+        DistanceMetric dm = new EuclideanDistance();
+        boolean isSplit = true;
         // With split data
         if (isSplit) {
             KNN knn = new KNN("/home/manuel/tools/adalineProcesses/mlearning/knn/iris.data", 0.66);
             knn.loadDataSet();
-            int k = 3;
+            int k = 4;
             List<String> results = new ArrayList<>();
             for (int i = 0; i < knn.testSet.rows(); i++) {
-                Matrix neighbors = knn.getNeighbors(knn.trainingSet, knn.testSet.getRow(i), k);
+                Matrix neighbors = knn.getNeighbors(knn.trainingSet, knn.testSet.getRow(i), k, dm);
                 String result = knn.getResponse(neighbors);
                 results.add(result);
                 String actual = knn.ctd.getRealValue(knn.testSet.component(i, knn.testSet.columns() - 1));
@@ -246,7 +242,7 @@ public class KNN {
             knn.loadDataSet();
             int k = 3;
             Vector testVector = new Vector(new double[]{6.3, 3.3, 4.7, 1.6});
-            Matrix neighbors = knn.getNeighbors(knn.dataSet, testVector, k);
+            Matrix neighbors = knn.getNeighbors(knn.dataSet, testVector, k, dm);
             log.info("Neighbors:\n" + neighbors.toString());
             String result = knn.getResponse(neighbors);
             log.info("Predicted:" + result + "; Actual:" + knn.ctd.getRealValue(1.0));
