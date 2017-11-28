@@ -291,6 +291,22 @@ public class Vector {
     }
 
     /**
+     *
+     * @param p
+     * @return
+     */
+    public double norm(final double p) {
+        if (p < 1.0) {
+            throw new IllegalArgumentException("p must be >= 1");
+        }
+        double res = 0.0;
+        for (int i = 0; i < components.length; i++) {
+            res += Math.pow(Math.abs(components[i]), p);
+        }
+        return Math.pow(res, 1.0 / p);
+    }
+
+    /**
      * @return double[]	a copy of the components of the receiver.
      */
     public double[] toComponents() {

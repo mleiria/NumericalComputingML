@@ -62,6 +62,29 @@ public class Matrix {
     public boolean isSquare() {
         return rows() == columns();
     }
+    /**
+     * TODO Fazer um Test case
+     * @return 
+     */
+    public boolean isSymmetric(){
+        if(!isSquare()){
+            return false;
+        }
+        return this.toString().equals(this.transpose().toString());
+    }
+    /**
+     * TODO Fazer um Test case
+     * @return 
+     */
+    public boolean isOrthogonal(){
+        final Matrix a = this.transpose().multiply(this);
+        final Matrix b = this.multiply(this.transpose());
+        final Matrix i = MatrixUtils.identity(this.rows(), this.columns());
+        if(a.toString().equals(b.toString().equals(i.toString()))){
+            return true;
+        }
+        return false;
+    }
 
     /**
      *

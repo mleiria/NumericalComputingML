@@ -9,15 +9,12 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
-import junit.framework.Assert;
 import junit.framework.TestCase;
 import static org.apache.log4j.Logger.getLogger;
 import pt.mleiria.machinelearning.matrixAlgebra.Matrix;
 import pt.mleiria.machinelearning.matrixAlgebra.Vector;
 import pt.mleiria.machinelearning.regression.LeastSquares;
-import pt.mleiria.numericalAnalysis.utils.IOUtils;
 import static pt.mleiria.numericalAnalysis.utils.IOUtils.loadMatrix;
-import pt.mleiria.numericalAnalysis.utils.Utils;
 import static pt.mleiria.numericalAnalysis.utils.Utils.setPrecision;
 import pt.mleiria.utils.FileLoader;
 

@@ -8,6 +8,8 @@ package pt.mleiria.machinelearning.statistics;
 import static java.lang.System.arraycopy;
 import static java.util.Arrays.sort;
 import pt.mleiria.machinelearning.matrixAlgebra.Vector;
+import pt.mleiria.numericalAnalysis.utils.VUtils;
+import pt.mleiria.numericalAnalysis.utils.ViewUtils;
 
 /**
  *
@@ -132,9 +134,9 @@ public class ColumnStatistics {
         arraycopy(this.col, 0, sortedArr, 0, dimension);
         sort(sortedArr);
         if (dimension % 2 == 0) {
-            return (sortedArr[dimension / 2] + sortedArr[dimension / 2 + 1]) / 2;
+            return (sortedArr[dimension / 2 - 1] + sortedArr[dimension / 2]) / 2;
         } else {
-            return sortedArr[dimension / 2 + 1];
+            return sortedArr[dimension / 2];
         }
     }
 
@@ -154,5 +156,6 @@ public class ColumnStatistics {
         }
         return autoCorrelation;
     }
+    
 
 }

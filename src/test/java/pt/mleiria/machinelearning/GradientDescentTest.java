@@ -7,7 +7,6 @@ package pt.mleiria.machinelearning;
 
 import org.apache.log4j.Logger;
 
-import junit.framework.Assert;
 import junit.framework.TestCase;
 import static org.apache.log4j.Logger.getLogger;
 import pt.mleiria.machinelearning.matrixAlgebra.Matrix;
@@ -16,7 +15,6 @@ import pt.mleiria.machinelearning.preprocess.FeatNormMeanStdev;
 import pt.mleiria.machinelearning.preprocess.FeatureNormalization;
 import pt.mleiria.machinelearning.regression.LinearRegression;
 import pt.mleiria.numericalAnalysis.utils.IOUtils;
-import pt.mleiria.numericalAnalysis.utils.ViewUtils;
 import static pt.mleiria.numericalAnalysis.utils.ViewUtils.showArrayContents;
 import pt.mleiria.utils.FileLoader;
 
