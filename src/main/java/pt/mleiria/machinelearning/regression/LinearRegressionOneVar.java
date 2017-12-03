@@ -51,7 +51,7 @@ public class LinearRegressionOneVar {
     private double correlationCoefficient;
 
     /**
-     * Cnstructor method.
+     * Constructor method.
      */
     public LinearRegressionOneVar() {
         reset();

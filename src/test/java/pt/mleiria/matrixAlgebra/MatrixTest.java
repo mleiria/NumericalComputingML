@@ -11,6 +11,7 @@ import static org.apache.log4j.Logger.getLogger;
 import pt.mleiria.machinelearning.interfaces.OneVarFunction;
 
 import pt.mleiria.machinelearning.matrixAlgebra.Matrix;
+import pt.mleiria.machinelearning.matrixAlgebra.MatrixUtils;
 import static pt.mleiria.machinelearning.matrixAlgebra.MatrixUtils.identity;
 import pt.mleiria.machinelearning.matrixAlgebra.Vector;
 import pt.mleiria.machinelearning.preprocess.FeatNormMeanStdev;
@@ -38,6 +39,14 @@ public class MatrixTest extends TestCase {
         components[1][1] = 4;
         a = new Matrix(components);
         log.info("\n" + a.toString());
+    }
+    
+    public void testMatrixUtilsExpand(){
+        Matrix expanded = MatrixUtils.expand(a, 4);
+        assertEquals(4, expanded.columns());
+        assertEquals(4.0, expanded.component(1, 1));
+        assertEquals(2.0, expanded.component(0, 1));
+        assertEquals(0.0, expanded.component(1, 3));
     }
 
     public void testGetVectorFromMatrix(){

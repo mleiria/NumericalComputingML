@@ -116,5 +116,27 @@ public class MatrixUtils {
         final Matrix transMatrix = matrix.transpose();
         return sqrt(trace(matrix.multiply(transMatrix)));
     }
+    /**
+     * 
+     * @param m
+     * @param cols
+     * @return 
+     */
+    public static Matrix expand(final Matrix m, final int cols){
+        if(cols <= m.columns()){
+            throw new IllegalArgumentException("Number of cols must be > " + m.columns());
+        }
+        final double[][] components = new double[m.rows()][cols];
+        for(int i = 0; i < m.rows(); i++){
+            for(int j = 0; j < cols; j++){
+                if(j < m.columns()){
+                    components[i][j] = m.component(i, j);
+                }else{
+                    components[i][j] = 0.0;
+                }
+            }
+        }
+        return new Matrix(components);
+    }
 
 }

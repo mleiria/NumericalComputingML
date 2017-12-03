@@ -21,7 +21,7 @@ public class Sigmoid implements OneVarFunction<Matrix> {
         final double[][] newComponents = new double[x.rows()][x.columns()];
         for (int i = 0; i < x.rows(); i++) {
             for (int j = 0; j < x.columns(); j++) {
-                newComponents[i][j] = 1.0 / (1 + exp(-components[i][j]));
+                newComponents[i][j] = 1.0 / (1.0 + exp(-components[i][j]));
             }
         }
         return new Matrix(newComponents);

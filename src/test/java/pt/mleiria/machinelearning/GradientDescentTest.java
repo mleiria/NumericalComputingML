@@ -18,7 +18,6 @@ import pt.mleiria.numericalAnalysis.utils.IOUtils;
 import static pt.mleiria.numericalAnalysis.utils.ViewUtils.showArrayContents;
 import pt.mleiria.utils.FileLoader;
 
-
 /**
  *
  * @author manuel
@@ -31,34 +30,32 @@ public class GradientDescentTest extends TestCase {
     private Matrix featuresX;
     private Vector outputY;
     private IOUtils iou = new IOUtils();
-    
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
         String separator = ",";
         try {
-        	FileLoader fl = new FileLoader("input/ex1data1.txt");
-        	a = fl.getFileCsvToMatrix(true, separator);
-        	mlearningLog.info("EX1DATA1:\n" + a.toString());
-        	
-        	
-        	fl = new FileLoader("input/ex1data2.txt");
-        	aMulti = fl.getFileCsvToMatrix(true, separator);
-        	mlearningLog.info("EX1DATA2:\n" + aMulti.toString());
-        	
-        	
-        	Matrix[] splitedM = aMulti.split(1);
+            FileLoader fl = new FileLoader("input/ex1data1.txt");
+            a = fl.getFileCsvToMatrix(true, separator);
+            mlearningLog.info("EX1DATA1:\n" + a.toString());
+
+            fl = new FileLoader("input/ex1data2.txt");
+            aMulti = fl.getFileCsvToMatrix(true, separator);
+            mlearningLog.info("EX1DATA2:\n" + aMulti.toString());
+
+            Matrix[] splitedM = aMulti.split(1);
             featuresX = splitedM[0];
             outputY = splitedM[1].getColumn(0);
-        
+
         } catch (Exception ex) {
             mlearningLog.error(ex);
         }
 
     }
+
     /**
-     * 
+     *
      */
     public void testFeatureNormalization() {
         final FeatNormMeanStdev ftn = new FeatNormMeanStdev();
@@ -69,9 +66,9 @@ public class GradientDescentTest extends TestCase {
         assertEquals(3.1702127659574466, ftn.getMean()[1]);
         assertEquals(0.13000986907454057, normalizedM.component(0, 0));
     }
-    
+
     /**
-     * 
+     *
      */
     public void testGradientDescentMulti() {
         mlearningLog.info("START Gradient Descent Multi...");
@@ -95,9 +92,9 @@ public class GradientDescentTest extends TestCase {
         mlearningLog.info("END Gradient Descent...");
 
     }
-    
+
     /**
-     * 
+     *
      */
     public void testGradientDescent() {
         double alpha = 0.01;
@@ -106,13 +103,13 @@ public class GradientDescentTest extends TestCase {
         final Matrix[] splitedM = a.split(1);
         final Matrix featuresX = splitedM[0];
         final Vector outputY = splitedM[1].getColumn(0);
-        
+
         LinearRegression gd = new LinearRegression(featuresX, outputY, alpha);
         gd.setMaximumIterations(numIter);
         gd.setDesiredPrecision(precision);
         gd.evaluate();
         final double[] costH = gd.getCostHistory();
-        iou.saveArrayToFile("src/test/resources/output//JGD.txt", costH, "JG", "NUMERIC");
+        iou.saveArrayToFile("src/test/resources/output/JGD.txt", costH, "JG", "NUMERIC");
         assertEquals(32.072733877455654, costH[0]);
         assertEquals(-3.63029143940436, gd.getTheta().component(0));
         assertEquals(1.166362350335582, gd.getTheta().component(1));
