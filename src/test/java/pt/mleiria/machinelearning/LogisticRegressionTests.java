@@ -5,16 +5,15 @@
  */
 package pt.mleiria.machinelearning;
 
-import junit.framework.Assert;
 import junit.framework.TestCase;
 import org.apache.log4j.Logger;
 import static org.apache.log4j.Logger.getLogger;
+import pt.mleiria.machinelearning.classification.LogisticRegression;
 import pt.mleiria.machinelearning.functions.Log;
 import pt.mleiria.machinelearning.functions.Sigmoid;
 import pt.mleiria.machinelearning.interfaces.OneVarFunction;
 import pt.mleiria.machinelearning.matrixAlgebra.Matrix;
 import pt.mleiria.machinelearning.matrixAlgebra.MatrixUtils;
-import static pt.mleiria.machinelearning.matrixAlgebra.MatrixUtils.toVector;
 import pt.mleiria.machinelearning.matrixAlgebra.Vector;
 import pt.mleiria.utils.FileLoader;
 
@@ -26,32 +25,33 @@ public class LogisticRegressionTests extends TestCase {
 
     private static final Logger LOG = getLogger("mlearningLog");
 
-    private Matrix a;
+    private Matrix X;
+    private Vector outputY;
+    
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        String separator = ",";
-        FileLoader fl = new FileLoader("input/studentsGrade.txt");
-        a = fl.getFileCsvToMatrix(true, separator);
-        LOG.info("Students Data:" + a.toString());
+        final String separator = ",";
+        FileLoader fl = new FileLoader("input/train.txt");
+        X = fl.getFileCsvToMatrix(true, separator);
+        LOG.info("Synthetic Data Input:" + X.toString());
+        fl = new FileLoader("input/target.txt");
+        outputY = fl.loadFileToVector();
+        LOG.info("Synthetic Data Output:" + outputY.toString());
+
     }
     
-    public void testSplit(){
-        final Matrix[] split = a.split(1);
-        final Matrix featuresX = split[0];
-        final Vector outputY = toVector(split[1]);
-        LOG.info("OutputY:" + outputY.toString());
-        assertEquals(a.rows(), outputY.dimension());
-    }
-    
+    /**
+     * 
+     */
     public void testSigmoid(){
         final double[][] components = new double[2][2];
         components[0][0] = 1;
         components[0][1] = 2;
         components[1][0] = 3;
         components[1][1] = 4;
-        a = new Matrix(components);
+        final Matrix a = new Matrix(components);
         LOG.info("\n" + a.toString());
         OneVarFunction<Matrix> sigmoid = new Sigmoid();
         Matrix sigmoidMatrixRes = sigmoid.value(a); 
@@ -63,13 +63,16 @@ public class LogisticRegressionTests extends TestCase {
         assertEquals(sigmoid1, sigmoidMatrixRes.component(0, 0));
         assertEquals(sigmoid2, sigmoidMatrixRes.component(0, 1));
     }
+    /**
+     * 
+     */
     public void testLogFunction(){
         final double[][] components = new double[2][2];
         components[0][0] = 1.5;
         components[0][1] = 2.3;
         components[1][0] = 3;
         components[1][1] = 4;
-        a = new Matrix(components);
+        final Matrix a = new Matrix(components);
         LOG.info("\n" + a.toString());
         OneVarFunction<Matrix> log = new Log();
         Matrix LogMatrixRes = log.value(a); 
@@ -78,5 +81,30 @@ public class LogisticRegressionTests extends TestCase {
         assertEquals(a.columns(), LogMatrixRes.columns());
         final double log1 = 0.4054651081081644;
         assertEquals(log1, LogMatrixRes.component(0, 0));
+    }
+    
+    public void testLogRegression(){
+        //Expand Matrix to quadratic terms
+        final Matrix expandedMatrix = MatrixUtils.expand(X);
+        assertEquals(5, expandedMatrix.columns());
+        //Append a column of ones
+        final Matrix featuresX = expandedMatrix.append(MatrixUtils.Ones(expandedMatrix.rows()));
+        assertEquals(6, featuresX.columns());
+        assertEquals(1.0, featuresX.component(0, featuresX.columns() - 1));
+        assertEquals(1.49281180493, featuresX.component(featuresX.rows() - 1, 0));
+        assertEquals(1.7269350793864087, featuresX.component(featuresX.rows() -1, featuresX.columns() - 2));
+        final Vector sampleW = new Vector(new double[]{-1. , -0.6, -0.2,  0.2,  0.6,  1. });
+        
+        //Vector sampleW = new Vector(new double[]{0. , 0., 0.,  0.,  0.,  1. });
+        LogisticRegression lr = new LogisticRegression(featuresX, outputY, 0.1, sampleW);
+        System.out.println("prob"+lr.probability().toString());
+        assertEquals(0.380399850984, lr.probability().component(0, 0));
+        lr.setAlpha(0.1);
+        lr.setMaximumIterations(100);
+        //lr.evaluate();
+        System.out.println(new Vector(lr.getCostHistory()).toString());
+        assertEquals(0.6934069659685858, lr.getCostHistory()[0]);
+        
+        
     }
 }

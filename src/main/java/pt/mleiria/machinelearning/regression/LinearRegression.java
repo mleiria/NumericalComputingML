@@ -17,7 +17,7 @@ public class LinearRegression extends GradientDescent {
      * @param alpha
      */
     public LinearRegression(final Matrix featuresX, final Vector outputY, final double alpha) {
-        super(featuresX, outputY, alpha);
+        super(featuresX.addOnes(), outputY, alpha);
     }
 
     @Override

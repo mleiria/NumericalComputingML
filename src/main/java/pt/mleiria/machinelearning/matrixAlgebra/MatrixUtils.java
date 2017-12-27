@@ -138,5 +138,28 @@ public class MatrixUtils {
         }
         return new Matrix(components);
     }
+    /**
+     * 
+     * @param dimension
+     * @return 
+     */
+    public static Vector Ones(final int dimension){
+        final double[] components = new double[dimension];
+        for(int i = 0; i < dimension; i++){
+            components[i] = 1.0;
+        }
+        return new Vector(components);
+    }
 
+    //TODO Generalizar
+    public static Matrix expand(final Matrix m){
+        final double[][] components = MatrixUtils.expand(m, 5).toComponents();
+        for(int i = 0; i < m.rows(); i++){
+            components[i][2] = Math.pow(components[i][0], 2);
+            components[i][3] = Math.pow(components[i][1], 2);
+            components[i][4] = components[i][0] * components[i][1];
+            //components[i][5] = 1;
+        }
+        return new Matrix(components);
+    }
 }

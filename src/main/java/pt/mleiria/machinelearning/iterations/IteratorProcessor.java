@@ -46,8 +46,8 @@ public abstract class IteratorProcessor {
         while (iterations++ < maximumIterations) {
             precision = evaluateIteration();
             if (hasConverged()) {
-                log.info("Converged at iteration: [" + iterations + "]");
-                log.info("Converged with precision:[" + precision + "]");
+                System.out.println("Converged at iteration: [" + iterations + "]");
+                System.out.println("Converged with precision:[" + precision + "]");
                 break;
             }
         }
@@ -102,6 +102,9 @@ public abstract class IteratorProcessor {
      * @return boolean
      */
     public boolean hasConverged() {
+        System.out.println("Precision:"+precision);
+        System.out.println("DesiredPrecision:"+desiredPrecision);
+        System.out.println("Converge:"+(precision - desiredPrecision));
         return precision < desiredPrecision;
     }
 

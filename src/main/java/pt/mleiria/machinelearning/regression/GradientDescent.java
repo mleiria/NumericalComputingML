@@ -32,6 +32,11 @@ public abstract class GradientDescent extends IteratorProcessor {
         this.alpha = alpha;
         this.dataSize = outputY.dimension();
     }
+    
+    public GradientDescent(final Matrix featuresX, final Vector outputY, final double alpha, final Vector theta) {
+        this(featuresX, outputY, alpha);
+        this.theta = theta;
+    }
 
     /**
      *
@@ -39,8 +44,10 @@ public abstract class GradientDescent extends IteratorProcessor {
     @Override
     public void initializeIterations() {
         costHistory = new double[getMaximumIterations() + 1];
-        setFeaturesX(featuresX.addOnes());
-        setTheta(new Vector(featuresX.columns()));
+        //setFeaturesX(featuresX.addOnes());
+        if(theta == null){
+            setTheta(new Vector(featuresX.columns()));
+        }
         computeCost();
     }
 

@@ -32,11 +32,15 @@ public class LinearClassifier {
     public static void main(String[] args){
         final LinearClassifier lc = new LinearClassifier();
         final Matrix expandedM = lc.expand();
+        //out.println("eM:"+expandedM);
         Vector sampleW = new Vector(new double[]{-1. , -0.6, -0.2,  0.2,  0.6,  1. });
+        //Vector sampleW = new Vector(new double[]{0. , 0., 0.,  0.,  0.,  1. });
+            
         final Matrix resM = lc.probability(expandedM, sampleW);
-        //out.println(resM.toString());
-        //out.println(lc.computeLoss(expandedM, lc.Y, sampleW));
-        lc.computeGrad(expandedM, sampleW);
+        
+        out.println(resM.toString());
+        out.println("Loss:"+lc.computeLoss(expandedM, lc.Y, sampleW));
+        //lc.computeGrad(expandedM, sampleW);
     }
 
     public LinearClassifier() {
@@ -91,7 +95,7 @@ public class LinearClassifier {
         //out.println(a.toString());
         final Vector b = m.transpose().product(a).product(1.0 / Y.dimension());
         //out.println(b.toString());
-        out.println(b.norm());
+        out.println("bNorm:"+b.norm());
         return b;
     }
 }

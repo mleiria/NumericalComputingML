@@ -5,63 +5,63 @@
  */
 package pt.mleiria.machinelearning.classification;
 
+import dummy.LinearClassifier;
+import java.io.IOException;
 import pt.mleiria.machinelearning.matrixAlgebra.Matrix;
 import pt.mleiria.machinelearning.matrixAlgebra.Vector;
 import static java.lang.System.out;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.stream.Stream;
 import pt.mleiria.machinelearning.functions.Sigmoid;
 import pt.mleiria.machinelearning.functions.Log;
 import pt.mleiria.machinelearning.matrixAlgebra.MatrixUtils;
+import pt.mleiria.numericalAnalysis.utils.IOUtils;
+import pt.mleiria.numericalAnalysis.utils.ViewUtils;
 /**
  *
  * @author Manuel Leiria <manuel.leiria at gmail.com>
  */
 public class LRTest {
+    private static final String PATH = "/media/manuel/workspace/data/";
+    private static final String INPUT_FILE = PATH + "train.txt";
+    private static final String TARGET_FILE = PATH + "target.txt";
+    private static final String SEPARATOR = ",";
+    private Matrix X;
+    private Vector outputY;
+    
     public static void main(String[] args){
-        double[][] components = new double[3][2];
-        components[0][0] = 1;
-        components[1][0] = 2;
-        components[2][0] = 3;
-        components[0][1] = 4;
-        components[1][1] = 5;
-        components[2][1] = 6;
-        Matrix featuresX = new Matrix(components);
-        double[] thetaComponents = new double[]{0, 0};
-        double[] yComponents = new double[]{1,2,3};
-        Vector y = new Vector(yComponents);
-        Vector theta = new Vector(thetaComponents);
-        Vector a = featuresX.product(theta);
-        out.println("[+]a:\n"+a.toString());
-        Matrix b = new Sigmoid().value(new Matrix(a));
-        out.println("[+]b:\n"+b.toString());
-        Matrix c = new Log().value(b);
-        out.println("[+]c:\n"+c.toString());
-        Matrix d = c.transpose();
-        out.println("[+]d:\n"+d.toString());
-        double e = d.product(y).component(0);
-        out.println(e);
-        Matrix ones = MatrixUtils.Ones(b.rows(), b.columns());
-        out.println("[+]ones:\n"+ones.toString());
-        Matrix f = ones.subtract(b);
-        out.println("[+]f:\n"+f.toString());
-        Matrix g = new Log().value(f);
-        out.println("[+]g:\n"+g.toString());
-        Matrix h = g.transpose();
-        out.println("[+]h:\n"+h.toString());
-        Vector vOnes = MatrixUtils.toVector(MatrixUtils.Ones(y.dimension(), 1));
-        out.println("[+]vOnes:\n"+vOnes.toString());
-        Vector i = vOnes.subtract(y);
-        out.println("[+]i:\n"+i.toString());
-        double j = h.product(i).component(0);
-        out.println(j);
-        double coeff = -1.0 / featuresX.rows();
-        out.println("[+]Final:"+coeff * e + j);
-        
-        
-        
-        
-        
-        
-        
+        LRTest lrt = new LRTest();
+        final Matrix featuresX = lrt.expand(lrt.X);
+        final Vector w = new Vector(new double[]{0 , 0, 0,  0,  0,  1. });
+        final LogisticRegression lr = new LogisticRegression(featuresX, lrt.outputY, 0.1, w);
+        lr.setDesiredPrecision(0.01);
+        lr.setMaximumIterations(100);
+        lr.evaluate();
+        out.println("Cost.\n"+ViewUtils.showArrayContents(lr.getCostHistory()));
         
     }
+
+    public LRTest() {
+        try {
+            final double[][] x = IOUtils.loadFileToComponents(INPUT_FILE, SEPARATOR);
+            X = new Matrix(x);
+            final Double[] y = IOUtils.loadFileToDoubleArray(TARGET_FILE);
+            outputY = new Vector(Stream.of(y).mapToDouble(Double::doubleValue).toArray());
+        } catch (IOException ex) {
+            Logger.getLogger(LinearClassifier.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public Matrix expand(final Matrix m){
+        final double[][] components = MatrixUtils.expand(m, 5).toComponents();
+        for(int i = 0; i < m.rows(); i++){
+            components[i][2] = Math.pow(components[i][0], 2);
+            components[i][3] = Math.pow(components[i][1], 2);
+            components[i][4] = components[i][0] * components[i][1];
+            //components[i][5] = 1;
+        }
+        return new Matrix(components);
+    }
+    
 }
