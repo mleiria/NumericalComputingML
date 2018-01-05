@@ -39,6 +39,7 @@ import static java.util.logging.Logger.getLogger;
 import static java.util.stream.Collectors.toList;
 
 import pt.mleiria.machinelearning.matrixAlgebra.Matrix;
+import pt.mleiria.machinelearning.preprocess.ConvertToNumericDummy;
 
 /**
  *
@@ -156,6 +157,44 @@ public class IOUtils {
         return data;
     }
 
+    /**
+     * load a file into a matrix, 1.34,2.34,0.3 13.45,0.2231,1.33
+     *
+     * @param pathToFile
+     * @param separator
+     * @return
+     * @throws java.io.FileNotFoundException
+     */
+    public static double[][] loadFileToComponentsWithLabelConversion(final String pathToFile, 
+            final String separator, final ConvertToNumericDummy converter)
+            throws FileNotFoundException, IOException {
+
+        final List<String[]> rows;
+        try (BufferedReader br = new BufferedReader(new FileReader(pathToFile))) {
+            String line;
+            rows = new ArrayList<>();
+            while ((line = br.readLine()) != null) {
+                rows.add(line.split(separator));
+            }
+        }
+
+        double[][] data = new double[rows.size()][];
+        for (int i = 0; i < rows.size(); i++) {
+            final String[] sensors = rows.get(i);
+            final int colSize = sensors.length;
+            data[i] = new double[colSize];
+            for (int j = 0; j < colSize; j++) {
+                if(j != colSize - 1){
+                    data[i][j] = parseDouble(sensors[j]);
+                }else{
+                    data[i][j] = converter.put(sensors[j]);
+                }
+            }
+        }
+        return data;
+    }
+
+    
     /**
      * load a file for neural networks, e.g., 1,0,1
      *

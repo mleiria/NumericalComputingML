@@ -11,14 +11,14 @@ import static java.lang.System.currentTimeMillis;
  *
  * @author manuel
  */
-public final class TimeLog {
+public final class StopWatch {
 
     private final long start;
 
     /**
      * Create a TimeLog object.
      */
-    public TimeLog() {
+    public StopWatch() {
         start = currentTimeMillis();
     }
 

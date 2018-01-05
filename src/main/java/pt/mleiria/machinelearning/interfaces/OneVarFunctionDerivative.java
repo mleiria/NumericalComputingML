@@ -3,6 +3,7 @@ package pt.mleiria.machinelearning.interfaces;
 /**
  *
  * @author manuel
+ * @param <T>
  */
 public interface OneVarFunctionDerivative<T> extends OneVarFunction<T> {
 

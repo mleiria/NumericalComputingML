@@ -3,33 +3,19 @@
  */
 package pt.mleiria.machinelearning.classification;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import static java.lang.Double.parseDouble;
-import static java.lang.Math.pow;
-import static java.lang.Math.sqrt;
-import java.util.ArrayList;
-import static java.util.Collections.reverseOrder;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
-import static java.util.Map.Entry.comparingByValue;
-import static java.util.stream.Collectors.toMap;
-import java.util.stream.Stream;
-
-import org.apache.log4j.Logger;
-import static org.apache.log4j.Logger.getLogger;
-
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
+import pt.mleiria.machinelearning.classification.knn.Distance;
 import pt.mleiria.machinelearning.matrixAlgebra.Matrix;
+import pt.mleiria.machinelearning.matrixAlgebra.MatrixUtils;
 import pt.mleiria.machinelearning.matrixAlgebra.Vector;
-import pt.mleiria.machinelearning.preprocess.ConvertToNumericDummy;
 import pt.mleiria.machinelearning.statistics.DistanceMetric;
-import pt.mleiria.machinelearning.statistics.EuclideanDistance;
-import pt.mleiria.machinelearning.statistics.ManhattanDistance;
+import pt.mleiria.machinelearning.statistics.DistanceTask;
 
 /**
  * @author manuel
@@ -37,216 +23,101 @@ import pt.mleiria.machinelearning.statistics.ManhattanDistance;
  */
 public class KNN {
 
-    protected static final Logger log = getLogger("mlearningLog");
-    /**
-     * Caminho para o ficheiro onde esta o conjunto de dados
-     */
-    private final String dataFile;
-    /**
-     *
-     */
-    private double split;
-    /**
-     * Matriz com o conjunto de dados para treino
-     */
-    private Matrix trainingSet;
-    /**
-     * Matriz com o conjunto de dados para testes
-     */
-    private Matrix testSet;
-    /**
-     * Matriz com o conjunto total de dados
-     */
-    private Matrix dataSet;
-    /**
-     * Classe auxiliar para converter Strings em numéricos
-     */
-    private final ConvertToNumericDummy ctd;
+    private final int k;
+    private final Matrix featuresX;
+    private final Vector outputY;
 
     /**
      *
-     * @param dataFile
-     */
-    public KNN(final String dataFile) {
-        this.dataFile = dataFile;
-        ctd = new ConvertToNumericDummy();
-    }
-
-    /**
-     *
-     * @param dataFile
-     * @param split
-     */
-    public KNN(final String dataFile, final double split) {
-        this(dataFile);
-        this.split = split;
-    }
-
-    /**
-     *
-     */
-    public void loadDataSet() {
-        String line;
-        final String cvsSplitBy = ",";
-        final List<String[]> tmpArray = new ArrayList<>();
-
-        try (BufferedReader br = new BufferedReader(new FileReader(dataFile))) {
-
-            while ((line = br.readLine()) != null) {
-                tmpArray.add(line.split(cvsSplitBy));
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        final double[][] components = new double[tmpArray.size()][];
-        for (int i = 0; i < tmpArray.size(); i++) {
-            final String[] row = tmpArray.get(i);
-            components[i] = new double[row.length];
-            for (int j = 0; j < row.length - 1; j++) {
-                components[i][j] = parseDouble(row[j]);
-            }
-            /*
-            A última coluna não é um numérico. Convertemos para um numérico dummy
-            e continuamos a carregar os dados
-            */
-            components[i][row.length - 1] = ctd.put(row[row.length - 1]);
-        }
-        dataSet = new Matrix(components);
-        if (split != 0) {
-            splitDataSet(dataSet);
-        }
-        log.info("ConvertToNumericDummy:\n" + ctd.toString());
-    }
-
-    /**
-     * Divide o conjunto de dados em duas matrizes
-     * de acordo com o valor do split
-     * @param dataSet
-     */
-    private void splitDataSet(Matrix dataSet) {
-        final Matrix[] m = dataSet.trainTestSplit(split, true);
-        trainingSet = m[0];
-        testSet = m[1];
-        log.info("TrainingSet:\n" + trainingSet.toString());
-        log.info("TestSet:\n" + testSet.toString());
-    }
-
-    /**
-     *
-     * @param dataSet
-     * @param testInstance
+     * @param featuresX
+     * @param outputY
      * @param k
-     * @param distance
-     * @return
      */
-    public Matrix getNeighbors(final Matrix dataSet, final Vector testInstance, final int k, final DistanceMetric distance) {
-        final Map<Vector, Double> neighbors = new HashMap<>(dataSet.rows());
-        final int length = testInstance.dimension() - 1;
-        for (int i = 0; i < dataSet.rows(); i++) {
-            final double dist = distance.getRelation(testInstance, dataSet.getRow(i), length);
-            neighbors.put(dataSet.getRow(i), dist);
-        }
-        final Map<Vector, Double> neighborsSorted = sortByValue(neighbors, false);
-        int i = 0;
-        final Iterator<Entry<Vector, Double>> it = neighborsSorted.entrySet().iterator();
-        double[][] components = new double[k][];
-        while (it.hasNext() && i < k) {
-            components[i] = it.next().getKey().toComponents();
-            i++;
-        }
-        return new Matrix(components);
+    public KNN(final Matrix featuresX, final Vector outputY, final int k) {
+        this.featuresX = featuresX;
+        this.outputY = outputY;
+        this.k = k;
     }
 
     /**
      *
-     * @param map
-     * @return a sorted map by value
+     * @param dataSet
+     * @param k
      */
-    private <K, V extends Comparable<? super V>> Map<K, V> sortByValue(final Map<K, V> map, final boolean isReverse) {
-        Stream<Entry<K, V>> s;
-        if (isReverse) {
-            s = map.entrySet()
-                    .stream().
-                    sorted(comparingByValue(reverseOrder()));
-        } else {
-            s = map.entrySet()
-                    .stream()
-                    .sorted(comparingByValue());
-        }
-
-        return s.collect(toMap(
-                Map.Entry::getKey,
-                Map.Entry::getValue,
-                (e1, e2) -> e1,
-                LinkedHashMap::new
-        ));
+    public KNN(final Matrix dataSet, final int k) {
+        this.k = k;
+        final Matrix[] aux = dataSet.split(1);
+        featuresX = aux[0];
+        outputY = MatrixUtils.toVector(aux[1]);
     }
 
     /**
      *
-     * @param neighbors
+     * @param example
+     * @param dm DistanceMetric
      * @return
      */
-    public String getResponse(final Matrix neighbors) {
-        final Map<String, Integer> classVotes = new HashMap<>();
-        for (int i = 0; i < neighbors.rows(); i++) {
-            final String label = ctd.getRealValue(neighbors.component(i, neighbors.columns() - 1));
-            classVotes.put(label, classVotes.getOrDefault(label, 0) + 1);
+    public Double classifySerial(final Vector example, final DistanceMetric dm) {
+        final Distance[] distances = new Distance[outputY.dimension()];
+        for (int i = 0; i < outputY.dimension(); i++) {
+            distances[i] = new Distance();
+            distances[i].setIndex(i);
+            distances[i].setDistance(dm.getRelation(featuresX.getRow(i), example, example.dimension()));
         }
-        return sortByValue(classVotes, true).entrySet()
-                .iterator()
-                .next()
-                .getKey();
+        Arrays.sort(distances);
+        return computeFinal(distances);
     }
-
     /**
      *
-     * @param testSet
-     * @param predictions
+     * @param example
+     * @param dm
+     * @param factor 
      * @return
      */
-    public double getAccuracy(final Matrix testSet, final String[] predictions) {
-        double correct = 0;
-        for (int i = 0; i < testSet.rows(); i++) {
-            if (ctd.getRealValue(testSet.component(i, testSet.columns() - 1)).equals(predictions[i])) {
-                correct += 1;
+    public Double classifyParallel(final Vector example, final DistanceMetric dm, final int factor)
+            throws Exception {
+        final int numThreads = factor * Runtime.getRuntime().availableProcessors();
+        final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(numThreads);
+
+        final Distance[] distances = new Distance[outputY.dimension()];
+        final CountDownLatch endControler = new CountDownLatch(numThreads);
+        final int length = outputY.dimension() / numThreads;
+        int startIndex = 0;
+        int endIndex = length;
+
+        for (int i = 0; i < numThreads; i++) {
+            DistanceTask task = new DistanceTask(distances, startIndex, endIndex, 
+                    featuresX, example, endControler, dm);
+            startIndex = endIndex;
+            if (i < numThreads - 2) {
+                endIndex = endIndex + length;
+            } else {
+                endIndex = outputY.dimension();
             }
+            executor.execute(task);
         }
-        return (correct / (double) testSet.rows()) * 100.0;
+        endControler.await();
+        Arrays.parallelSort(distances);
+        
+        return computeFinal(distances);
     }
-
-    public static void main(String[] args) {
-        //DistanceMetric dm = new ManhattanDistance();
-        DistanceMetric dm = new EuclideanDistance();
-        boolean isSplit = true;
-        // With split data
-        if (isSplit) {
-            KNN knn = new KNN("/home/manuel/tools/adalineProcesses/mlearning/knn/iris.data", 0.66);
-            knn.loadDataSet();
-            int k = 4;
-            List<String> results = new ArrayList<>();
-            for (int i = 0; i < knn.testSet.rows(); i++) {
-                Matrix neighbors = knn.getNeighbors(knn.trainingSet, knn.testSet.getRow(i), k, dm);
-                String result = knn.getResponse(neighbors);
-                results.add(result);
-                String actual = knn.ctd.getRealValue(knn.testSet.component(i, knn.testSet.columns() - 1));
-                if (!result.equals(actual)) {
-                    log.info("Fail!");
-                }
-                log.info("Predicted:" + result + "; Actual:" + actual);
-            }
-            double accuracy = knn.getAccuracy(knn.testSet, results.toArray(new String[results.size()]));
-            log.info("Accuracy: " + accuracy);
-        } else {
-            KNN knn = new KNN("/home/manuel/tools/adalineProcesses/mlearning/knn/iris_MinusOne.data");
-            knn.loadDataSet();
-            int k = 3;
-            Vector testVector = new Vector(new double[]{6.3, 3.3, 4.7, 1.6});
-            Matrix neighbors = knn.getNeighbors(knn.dataSet, testVector, k, dm);
-            log.info("Neighbors:\n" + neighbors.toString());
-            String result = knn.getResponse(neighbors);
-            log.info("Predicted:" + result + "; Actual:" + knn.ctd.getRealValue(1.0));
+    /**
+     * 
+     * @param distances
+     * @return 
+     */
+    private double computeFinal(final Distance[] distances){
+                final Map<Double, Integer> results = new HashMap<>();
+        for (int i = 0; i < k; i++) {
+            final Double label = outputY.component(distances[i].getIndex());
+            results.merge(label, 1, (a, b) -> a + b);
         }
-
+        return Collections.max(results.entrySet(), Map.Entry.comparingByValue()).getKey();
     }
+    /*
+    public String classifyParallel(final Vector example){
+        
+    }
+     */
+
 }

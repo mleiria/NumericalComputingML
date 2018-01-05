@@ -20,7 +20,7 @@ public class BagTest extends TestCase{
     private static final Logger LOG = getLogger("mlearningLog");
     
     private final Double[] data = new Double[]{1., 2., 3., 4., 5., 6., 7., 8., 9.};
-    private final Bag<Double> b = new Bag();
+    private final Bag<Double> b = new Bag<>();
     
     @Override
     protected void setUp(){
@@ -43,12 +43,5 @@ public class BagTest extends TestCase{
         assertEquals(9, total);
     }
     
-    public void testForEach(){
-        
-        b.forEach(d -> System.out.println(d*2));
-        
-        b.spliterator().
-        
-        assertEquals(4, 2*2);
-    }
+    
 }

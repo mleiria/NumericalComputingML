@@ -8,7 +8,7 @@ package pt.mleiria.machinelearning.distributions;
 
 import static java.lang.Math.pow;
 import static java.lang.System.out;
-import pt.mleiria.numericalAnalysis.utils.TimeLog;
+import pt.mleiria.numericalAnalysis.utils.StopWatch;
 
 
 /**
@@ -43,11 +43,11 @@ public class Binomial {
         int k = 50;
         double p = 0.25;
 
-        TimeLog st = new TimeLog();
+        StopWatch st = new StopWatch();
         out.println(binomial1(N, k, p));
         out.println(st.elapsedTime());
 
-        st = new TimeLog();
+        st = new StopWatch();
         out.println(binomial2(N, k, p));
         out.println(st.elapsedTime());
 

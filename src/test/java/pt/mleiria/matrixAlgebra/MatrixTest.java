@@ -116,6 +116,7 @@ public class MatrixTest extends TestCase {
         assertEquals(50.0, c.component(1, 1));
         log.info("\n" + c.toString());
     }
+    
 
     public void testMatrixIdentity() {
         double[][] components = new double[2][2];

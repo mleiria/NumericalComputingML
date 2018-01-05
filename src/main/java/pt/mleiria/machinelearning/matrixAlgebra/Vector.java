@@ -121,6 +121,18 @@ public class Vector {
         }
         return new Matrix(newComponents);
     }
+    /**
+     * 
+     * @param v
+     * @return  Vector wise multiplication where res[i] = a[i] * b[i]
+     */
+    public Vector wiseMultiplication(final Vector v){
+        final double[] res = new double[dimension()];
+        for(int i = 0; i < dimension(); i++){
+            res[i] = component(i) * v.component(i);
+        }
+        return new Vector(res);
+    }
 
     /**
      * Sets all components of the receiver to 0.

@@ -16,9 +16,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import static java.lang.Double.valueOf;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Stream;
 import pt.mleiria.machinelearning.matrixAlgebra.Matrix;
 import pt.mleiria.machinelearning.matrixAlgebra.Vector;
+import pt.mleiria.machinelearning.preprocess.ConvertToNumericDummy;
+import pt.mleiria.numericalAnalysis.utils.IOUtils;
 import static pt.mleiria.numericalAnalysis.utils.IOUtils.loadMatrix;
 
 /**
@@ -209,11 +213,21 @@ public class FileLoader {
         }
         return res;
     }
+    
+    public static void readFileWithConversion() throws IOException{
+        final ConvertToNumericDummy converter = new ConvertToNumericDummy();
+        final String dataFile = "/home/manuel/tools/adalineProcesses/mlearning/knn/iris.data";
+        double[][] components = IOUtils.loadFileToComponentsWithLabelConversion(dataFile, ",", converter);
+        Matrix m = new Matrix(components);
+        out.println(m.toString());
+        out.println(converter.toString());
+    }
 
     public static void main(String[] args) {
-        final FileLoader fl = new FileLoader("input/100MetrosOlymp.csv");
-        final List<String[]> lst = fl.readCSVFile(",", 2);
-        final Matrix m = loadMatrix(lst);
-        out.println(m.toString());
+        try {
+            readFileWithConversion();
+        } catch (IOException ex) {
+            Logger.getLogger(FileLoader.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }
