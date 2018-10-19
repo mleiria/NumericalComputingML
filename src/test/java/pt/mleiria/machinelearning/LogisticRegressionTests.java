@@ -8,9 +8,9 @@ package pt.mleiria.machinelearning;
 import junit.framework.TestCase;
 import org.apache.log4j.Logger;
 import static org.apache.log4j.Logger.getLogger;
-import pt.mleiria.machinelearning.classification.LogisticRegression;
-import pt.mleiria.machinelearning.functions.Log;
-import pt.mleiria.machinelearning.functions.Sigmoid;
+import pt.mleiria.machinelearning.classification.LogisticRegression_OLD;
+import pt.mleiria.machinelearning.functions.matrix.Log;
+import pt.mleiria.machinelearning.functions.matrix.Sigmoid;
 import pt.mleiria.machinelearning.interfaces.OneVarFunction;
 import pt.mleiria.machinelearning.matrixAlgebra.Matrix;
 import pt.mleiria.machinelearning.matrixAlgebra.MatrixUtils;
@@ -96,7 +96,7 @@ public class LogisticRegressionTests extends TestCase {
         final Vector sampleW = new Vector(new double[]{-1. , -0.6, -0.2,  0.2,  0.6,  1. });
         
         //Vector sampleW = new Vector(new double[]{0. , 0., 0.,  0.,  0.,  1. });
-        LogisticRegression lr = new LogisticRegression(featuresX, outputY, 0.1, sampleW);
+        LogisticRegression_OLD lr = new LogisticRegression_OLD(featuresX, outputY, 0.1, sampleW);
         System.out.println("prob"+lr.probability().toString());
         assertEquals(0.380399850984, lr.probability().component(0, 0));
         lr.setAlpha(0.1);

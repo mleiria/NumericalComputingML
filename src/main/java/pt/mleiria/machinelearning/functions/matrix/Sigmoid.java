@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package pt.mleiria.machinelearning.functions;
+package pt.mleiria.machinelearning.functions.matrix;
 
 import static java.lang.Math.exp;
 import pt.mleiria.machinelearning.interfaces.OneVarFunction;

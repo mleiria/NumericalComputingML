@@ -5,18 +5,18 @@ package pt.mleiria.machinelearning.classification;
 
 import static java.lang.Math.abs;
 import static java.lang.System.out;
-import pt.mleiria.machinelearning.functions.Sigmoid;
+import pt.mleiria.machinelearning.functions.matrix.Sigmoid;
 import pt.mleiria.machinelearning.matrixAlgebra.Matrix;
 import pt.mleiria.machinelearning.matrixAlgebra.Vector;
 import pt.mleiria.machinelearning.regression.GradientDescent;
-import pt.mleiria.machinelearning.functions.Log;
+import pt.mleiria.machinelearning.functions.matrix.Log;
 import pt.mleiria.machinelearning.matrixAlgebra.MatrixUtils;
 
 /**
  * @author manuel
  *
  */
-public class LogisticRegression extends GradientDescent {
+public class LogisticRegression_OLD extends GradientDescent {
 
     /**
      *
@@ -24,7 +24,7 @@ public class LogisticRegression extends GradientDescent {
      * @param outputY
      * @param alpha
      */
-    public LogisticRegression(final Matrix featuresX, final Vector outputY, final double alpha) {
+    public LogisticRegression_OLD(final Matrix featuresX, final Vector outputY, final double alpha) {
         super(featuresX, outputY, alpha);
     }
     /**
@@ -34,7 +34,7 @@ public class LogisticRegression extends GradientDescent {
      * @param alpha
      * @param theta 
      */
-    public LogisticRegression(final Matrix featuresX, final Vector outputY, final double alpha, final Vector theta) {
+    public LogisticRegression_OLD(final Matrix featuresX, final Vector outputY, final double alpha, final Vector theta) {
         super(featuresX, outputY, alpha, theta);
     }
     

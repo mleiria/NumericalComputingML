@@ -5,6 +5,7 @@
  */
 package pt.mleiria.machinelearning.matrixAlgebra;
 
+import static java.lang.Math.pow;
 import static java.lang.Math.random;
 import static java.lang.Math.sqrt;
 
@@ -52,6 +53,8 @@ public class MatrixUtils {
         return new Matrix(components);
     }
 
+    
+    
     /**
      *
      * @param rows
@@ -153,10 +156,10 @@ public class MatrixUtils {
 
     //TODO Generalizar
     public static Matrix expand(final Matrix m){
-        final double[][] components = MatrixUtils.expand(m, 5).toComponents();
+        final double[][] components = expand(m, 5).toComponents();
         for(int i = 0; i < m.rows(); i++){
-            components[i][2] = Math.pow(components[i][0], 2);
-            components[i][3] = Math.pow(components[i][1], 2);
+            components[i][2] = pow(components[i][0], 2);
+            components[i][3] = pow(components[i][1], 2);
             components[i][4] = components[i][0] * components[i][1];
             //components[i][5] = 1;
         }

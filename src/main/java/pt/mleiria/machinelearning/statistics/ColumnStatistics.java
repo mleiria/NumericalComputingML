@@ -8,8 +8,6 @@ package pt.mleiria.machinelearning.statistics;
 import static java.lang.System.arraycopy;
 import static java.util.Arrays.sort;
 import pt.mleiria.machinelearning.matrixAlgebra.Vector;
-import pt.mleiria.numericalAnalysis.utils.VUtils;
-import pt.mleiria.numericalAnalysis.utils.ViewUtils;
 
 /**
  *

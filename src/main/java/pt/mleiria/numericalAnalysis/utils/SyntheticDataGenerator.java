@@ -1,9 +1,12 @@
 package pt.mleiria.numericalAnalysis.utils;
 
+import static java.lang.Math.PI;
 import static java.lang.Math.sin;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import org.jfree.ui.RefineryUtilities;
+import pt.mleiria.machinelearning.distributions.Gaussian;
 import pt.mleiria.machinelearning.interfaces.OneVarFunction;
 import pt.mleiria.machinelearning.matrixAlgebra.Vector;
 import pt.mleiria.plot.ScatterFactory;
@@ -67,7 +70,7 @@ public class SyntheticDataGenerator {
     
     
     public static void main(String[] args){
-        SyntheticDataGenerator sdg = new SyntheticDataGenerator(0, 1, 0.01, x -> sin(x));
+        SyntheticDataGenerator sdg = new SyntheticDataGenerator(0, 10, 0.01, x -> sin(2 * PI * x) + new Gaussian(0, .05, Optional.empty()).random());
         ScatterFactory sf = new ScatterFactory("Sin(x)", sdg.getX(), sdg.getY());
         sf.setxLabel("Ano");
 	    sf.setyLabel("Tempo (seg.)");

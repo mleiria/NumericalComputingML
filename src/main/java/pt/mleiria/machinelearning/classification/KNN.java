@@ -10,10 +10,10 @@ import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
-import pt.mleiria.machinelearning.classification.knn.Distance;
 import pt.mleiria.machinelearning.matrixAlgebra.Matrix;
 import pt.mleiria.machinelearning.matrixAlgebra.MatrixUtils;
 import pt.mleiria.machinelearning.matrixAlgebra.Vector;
+import pt.mleiria.machinelearning.statistics.Distance;
 import pt.mleiria.machinelearning.statistics.DistanceMetric;
 import pt.mleiria.machinelearning.statistics.DistanceTask;
 

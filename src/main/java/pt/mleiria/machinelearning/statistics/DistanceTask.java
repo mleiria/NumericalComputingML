@@ -6,7 +6,7 @@
 package pt.mleiria.machinelearning.statistics;
 
 import java.util.concurrent.CountDownLatch;
-import pt.mleiria.machinelearning.classification.knn.Distance;
+
 import pt.mleiria.machinelearning.matrixAlgebra.Matrix;
 import pt.mleiria.machinelearning.matrixAlgebra.Vector;
 
